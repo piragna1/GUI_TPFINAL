@@ -118,6 +118,7 @@ public class GestionConsecionaria {
     }
 
     private static void ejecucion(Login login){
+        Pantalla pantalla = new Pantalla(login,compradorController);
         /*
         int eleccion = 0;
         Empleados  empleadoIngresado = null;
@@ -129,7 +130,6 @@ public class GestionConsecionaria {
             }
         } while (true);
          */
-        Pantalla pantalla = new Pantalla(login);
     }
 
     private static Empleados iniciarSesion(Login login, Integer eleccion, Empleados empleadoIngresado){

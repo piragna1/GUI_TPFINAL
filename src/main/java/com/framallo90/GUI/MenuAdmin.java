@@ -1,5 +1,7 @@
 package com.framallo90.GUI;
 
+import com.framallo90.Comprador.Controller.CompradorController;
+import com.framallo90.GUI.CLIENTES.Clientes;
 import com.framallo90.Login.Login;
 
 import javax.swing.*;
@@ -15,7 +17,7 @@ public class MenuAdmin extends JFrame{
     private JButton btnVolver;
     private JButton btnClientes;
 
-    public MenuAdmin(Login login){
+    public MenuAdmin(Login login, CompradorController compradorController){
         setContentPane(menuAdmin);
         setTitle("Menu administrador");
         setSize(450,450);
@@ -25,9 +27,18 @@ public class MenuAdmin extends JFrame{
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Pantalla(login);
+                new Pantalla(login, compradorController);
+                dispose();
             }
         });
 
+        // IR A MENU CLIENTES
+        btnClientes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Clientes clientes = new Clientes(login,compradorController);
+                dispose();
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package com.framallo90.GUI;
 
+import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Login.Login;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class Pantalla extends JFrame {
     private JLabel introInicio;
     private JButton btnSalir;
 
-    public Pantalla (Login login) {
+    public Pantalla (Login login, CompradorController compradorController) {
         setContentPane(pantallaIncio);
         setTitle("Proyecto Final 3");
         setSize(500,500);
@@ -26,7 +27,7 @@ public class Pantalla extends JFrame {
             //SET "invisible" menú principal
             @Override
             public void actionPerformed(ActionEvent e) {
-                LoginAdmin lAdmin = new LoginAdmin(login);
+                GUILogin lAdmin = new GUILogin(login,compradorController);
                 setVisible(false);
             }
         });
@@ -35,7 +36,6 @@ public class Pantalla extends JFrame {
             //SET "invisible" menú principal
             @Override
             public void actionPerformed(ActionEvent e) {
-                LoginVendedor lVendedor = new LoginVendedor(login);
                 setVisible(false);
             }
         });

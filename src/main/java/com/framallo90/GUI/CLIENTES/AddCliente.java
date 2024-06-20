@@ -1,0 +1,126 @@
+package com.framallo90.GUI.CLIENTES;
+
+import com.framallo90.Comprador.Controller.CompradorController;
+import com.framallo90.GUI.CLIENTES.Clientes;
+import com.framallo90.Login.Login;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static com.framallo90.UsuarioAbstracta.view.UsuarioView.isValidEmail;
+import static jdk.internal.net.http.common.Utils.isValidName;
+
+public class AddCliente extends JFrame {
+    private JPanel addCliente;
+    private JPanel panel;
+    private JTextField apellido;
+    private JTextField dni;
+    private JTextField email;
+    private JButton btnEnviar;
+    private JTextField nombre;
+    private JButton btnCancelar;
+
+    /**
+     * Constructs a new frame that is initially invisible.
+     * <p>
+     * This constructor sets the component's locale property to the value
+     * returned by <code>JComponent.getDefaultLocale</code>.
+     *
+     * @throws HeadlessException if GraphicsEnvironment.isHeadless()
+     *                           returns true.
+     * @see GraphicsEnvironment#isHeadless
+     * @see Component#setSize
+     * @see Component#setVisible
+     * @see JComponent#getDefaultLocale
+     */
+    public AddCliente(Login login, CompradorController compradorController)  {
+        setContentPane(addCliente);
+        setTitle("Agregar cliente");
+        setSize(450,450);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+
+        //VOLVER
+
+
+        //AGREGAR CLIENTE
+        btnEnviar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nombre1 = null,apellido1=null,email1=null;
+                Integer dni1;
+                nombre1 = nombre.getText();
+                apellido1 = apellido.getText();
+                String dniText = dni.getText();
+                email1 = email.getText();
+                try {
+                    dni1 = Integer.parseInt(dniText);
+                } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(null, "DNI inválido. Debe ingresar solo números.");
+                    return; // Prevent submission on invalid format
+                }
+
+                // Validate all fields
+                if (!isValidName(nombre1)) {
+                    JOptionPane.showMessageDialog(null, "Nombre inválido.");
+                    return; // Prevent submission
+                }
+                if (!isValidName(apellido1)) {
+                    JOptionPane.showMessageDialog(null, "Apellido inválido.");
+                    return; // Prevent submission
+                }
+                if (!isValidDNI(dni1)) {
+                    JOptionPane.showMessageDialog(null, "DNI inválido.");
+                    return; // Prevent submission
+                }
+                if (!isValidEmail(email1)) {
+                    JOptionPane.showMessageDialog(null, "Email inválido.");
+                    return; // Prevent submission
+                }
+
+                // All fields valid, proceed with form submission logic
+                // (e.g., save data, display success message)
+                JOptionPane.showMessageDialog(null, "Cliente creado correctamente.");
+            }
+        });
+        btnCancelar.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Clientes clientes = new Clientes(login,compradorController);
+                dispose();
+            }
+        });
+        //VOLVER A MENU CLIENTES
+        btnCancelar.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Clientes clientes = new Clientes(login,compradorController);
+                dispose();
+            }
+        });
+    }
+
+
+    private boolean isValidDNI(Integer dni){
+        // Convert int to String for length check
+        String dniString = String.valueOf(dni);
+        if (dniString.length() != 8 || !dniString.matches("[0-9]+")) {
+            return false;
+        }
+        // Add additional DNI validation if needed (e.g., checksum)
+        return true;
+    }
+
+}

@@ -9,12 +9,12 @@ import com.framallo90.Excepciones.InvalidIdNotFound;
 import com.framallo90.consola.Consola;
 
 public class CompradorController {
-    CompradorView compradorView;
-    CompradorRepository compradorRepository;
+    private static CompradorView compradorView;
+    private static CompradorRepository compradorRepository;
 
     public CompradorController(CompradorView compradorView, CompradorRepository compradorRepository) {
-        this.compradorView = compradorView;
-        this.compradorRepository = compradorRepository;
+        compradorView = compradorView;
+        compradorRepository = compradorRepository;
     }
 
     public void compradorMenu(){
@@ -60,14 +60,18 @@ public class CompradorController {
         }while (opt!=6);
     }
 
-    public void add(){
+    public static void add(){
         String nombre = Consola.ingresarXString("nombre");
         String apellido = Consola.ingresarXString("apellido");
         Integer dni = Consola.ingresarXInteger("dni");
         String email = compradorView.ingresoEmail();
 
         Comprador comprador = new Comprador(nombre,apellido,dni,email);
-        this.compradorRepository.add(comprador);
+        compradorRepository.add(comprador);
+    }
+    //SOBRECARGA
+    public static void add(Comprador comprador){
+        compradorRepository.add(comprador);
     }
 
     public void remove(){
