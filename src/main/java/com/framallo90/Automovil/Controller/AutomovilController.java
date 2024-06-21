@@ -14,14 +14,14 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class AutomovilController {
-    private final AutomovilRepository automovilRepository;
-    private final AutomovilView automovilView;
-    private final ApiAutomovilService apiAutomovilService;
+    private static AutomovilRepository automovilRepository;
+    private static AutomovilView automovilView;
+    private static ApiAutomovilService apiAutomovilService;
 
     public AutomovilController(AutomovilRepository automovilRepository, AutomovilView automovilView) {
-        this.automovilRepository = automovilRepository;
-        this.automovilView = automovilView;
-        this.apiAutomovilService = new ApiAutomovilService();
+        AutomovilController.automovilRepository = automovilRepository;
+        AutomovilController.automovilView = automovilView;
+        AutomovilController.apiAutomovilService = new ApiAutomovilService();
     }
 
     // Método para seleccionar una marca usando la API.
@@ -309,10 +309,10 @@ public class AutomovilController {
 
                     }else{
                         ///muestra la lista resultante sin filtros
-                        if(this.automovilRepository.getAutomovilList().size() == 0){
+                        if(automovilRepository.getAutomovilList().size() == 0){
                             System.out.println("No hay automoviles");
                         }else{
-                            this.automovilRepository.getAutomovilList().forEach(System.out::println);
+                            automovilRepository.getAutomovilList().forEach(System.out::println);
                         }
                     }
                 }

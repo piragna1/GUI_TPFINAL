@@ -1,7 +1,10 @@
 package com.framallo90.GUI;
 
+import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
+import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.Login.Login;
+import com.framallo90.Venta.Controller.VentaController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,23 +19,26 @@ public class Pantalla extends JFrame {
     private JLabel introInicio;
     private JButton btnSalir;
 
-    public Pantalla (Login login, CompradorController compradorController) {
+    public Pantalla (Login login, CompradorController compradorController,
+                     AutomovilController automovilController,
+                     EmpleadosController empleadosController,
+                     VentaController ventaController) {
         setContentPane(pantallaIncio);
         setTitle("Proyecto Final 3");
         setSize(500,500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+        //IR A MENU ADMIN
         btnAdmin.addActionListener(new ActionListener() {
-            //IR A MENU ADMIN
             //SET "invisible" menú principal
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUILogin lAdmin = new GUILogin(login,compradorController);
+                GUILogin guiLogin = new GUILogin(login,compradorController,automovilController,empleadosController,ventaController);
                 setVisible(false);
             }
         });
+        //IR A MENU VENDEDOR
         btnVendedor.addActionListener(new ActionListener() {
-            //IR A MENU VENDEDOR
             //SET "invisible" menú principal
             @Override
             public void actionPerformed(ActionEvent e) {

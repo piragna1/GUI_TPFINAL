@@ -1,8 +1,11 @@
 package com.framallo90.GUI.CLIENTES;
 
+import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
-import com.framallo90.GUI.CLIENTES.Clientes;
+import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.Login.Login;
+import com.framallo90.UsuarioAbstracta.view.UsuarioView;
+import com.framallo90.Venta.Controller.VentaController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +38,10 @@ public class AddCliente extends JFrame {
      * @see Component#setVisible
      * @see JComponent#getDefaultLocale
      */
-    public AddCliente(Login login, CompradorController compradorController)  {
+    public AddCliente(Login login, CompradorController compradorController,
+                      AutomovilController automovilController,
+                      EmpleadosController empleadosController,
+                      VentaController ventaController)  {
         setContentPane(addCliente);
         setTitle("Agregar cliente");
         setSize(450,450);
@@ -71,7 +77,7 @@ public class AddCliente extends JFrame {
                     JOptionPane.showMessageDialog(null, "Apellido inválido.");
                     return; // Prevent submission
                 }
-                if (!isValidDNI(dni1)) {
+                if (!UsuarioView.isValidDni(dni1)) {
                     JOptionPane.showMessageDialog(null, "DNI inválido.");
                     return; // Prevent submission
                 }
@@ -93,7 +99,7 @@ public class AddCliente extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                Clientes clientes = new Clientes(login,compradorController);
+                Clientes clientes = new Clientes(login,compradorController,automovilController,empleadosController,ventaController);
                 dispose();
             }
         });
@@ -106,21 +112,9 @@ public class AddCliente extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                Clientes clientes = new Clientes(login,compradorController);
+                Clientes clientes = new Clientes(login,compradorController,automovilController,empleadosController,ventaController);
                 dispose();
             }
         });
     }
-
-
-    private boolean isValidDNI(Integer dni){
-        // Convert int to String for length check
-        String dniString = String.valueOf(dni);
-        if (dniString.length() != 8 || !dniString.matches("[0-9]+")) {
-            return false;
-        }
-        // Add additional DNI validation if needed (e.g., checksum)
-        return true;
-    }
-
 }

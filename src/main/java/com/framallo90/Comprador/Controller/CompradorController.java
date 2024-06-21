@@ -9,13 +9,22 @@ import com.framallo90.Excepciones.InvalidIdNotFound;
 import com.framallo90.consola.Consola;
 
 public class CompradorController {
-    private static CompradorView compradorView;
+    private static CompradorView compradorView; //julian alvarez
     private static CompradorRepository compradorRepository;
 
-    public CompradorController(CompradorView compradorView, CompradorRepository compradorRepository) {
-        compradorView = compradorView;
-        compradorRepository = compradorRepository;
+    public CompradorController(CompradorView compradorView,CompradorRepository compradorRepository) {
+        CompradorController.compradorView = compradorView;
+        CompradorController.compradorRepository = compradorRepository;
     }
+
+    public static void setCompradorRepository(CompradorRepository compradorRepository) {
+        CompradorController.compradorRepository = compradorRepository;
+    }
+
+    public static void setCompradorView(CompradorView compradorView) {
+        CompradorController.compradorView = compradorView;
+    }
+
 
     public void compradorMenu(){
         int opt;
@@ -167,7 +176,7 @@ public class CompradorController {
             compradorView.muestroUnComprador(comprador);
     }
 
-    public Comprador find (Integer id){
+    public static Comprador find (Integer id){
         return compradorRepository.find(id);
     }
 

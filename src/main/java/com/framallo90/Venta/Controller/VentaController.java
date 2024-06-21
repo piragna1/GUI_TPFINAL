@@ -17,52 +17,52 @@ import com.framallo90.consola.Consola;
 import java.time.LocalDate;
 
 public class VentaController {
-    private EmpleadosController empleadosController;
-    private CompradorController compradorController;
-    private AutomovilController automovilController;
-    private MetodoController metodoController;
-    private VentaView ventaView;
-    private VentaRepository ventaRepository;
+    private static EmpleadosController empleadosController;
+    private static CompradorController compradorController;
+    private static AutomovilController automovilController;
+    private static MetodoController metodoController;
+    private static VentaView ventaView;
+    private static VentaRepository ventaRepository;
 
     public VentaController(EmpleadosController empleadosController, CompradorController compradorController, AutomovilController automovilController, MetodoController metodoController, VentaView ventaView, VentaRepository ventaRepository) {
-        this.empleadosController = empleadosController;
-        this.compradorController = compradorController;
-        this.automovilController = automovilController;
-        this.metodoController = metodoController;
-        this.ventaView = ventaView;
-        this.ventaRepository = ventaRepository;
+        VentaController.empleadosController = empleadosController;
+        VentaController.compradorController = compradorController;
+        VentaController.automovilController = automovilController;
+        VentaController.metodoController = metodoController;
+        VentaController.ventaView = ventaView;
+        VentaController.ventaRepository = ventaRepository;
     }
 
     //documentar
     public void add() throws InvalidIdNotFound {
-        Empleados empleados = this.empleadosController.find(Consola.ingresarXInteger("id del empleado:"));
+        Empleados empleados = EmpleadosController.find(Consola.ingresarXInteger("id del empleado:"));
         if (empleados == null) {
             throw new InvalidIdNotFound("empleado no encontrado");
         }
-        Comprador comprador = this.compradorController.find(Consola.ingresarXInteger("id del comprador:"));
+        Comprador comprador = CompradorController.find(Consola.ingresarXInteger("id del comprador:"));
         if (comprador == null) throw new InvalidIdNotFound("comprador no encontrado");
-        Automovil automovil = this.automovilController.find(Consola.ingresarXInteger("id del automovil"));
+        Automovil automovil = automovilController.find(Consola.ingresarXInteger("id del automovil"));
         if (automovil == null)throw new InvalidIdNotFound("automovil no encontrado");
         LocalDate fecha = LocalDate.now();
-        MetodoDePago metodoDePago = this.metodoController.cargarMDP(automovil.getPrecio());
-        Venta venta = this.ventaView.generarVenta(empleados,comprador,automovil,fecha,metodoDePago);
-        this.ventaRepository.add(venta);
+        MetodoDePago metodoDePago = metodoController.cargarMDP(automovil.getPrecio());
+        Venta venta = ventaView.generarVenta(empleados,comprador,automovil,fecha,metodoDePago);
+        ventaRepository.add(venta);
     }
     public void show() throws InvalidIdNotFound {
-        Venta buscar = this.ventaRepository.find(Consola.ingresarXInteger("id de la venta"));
-        if (buscar != null ) this.ventaView.mostrarVenta(buscar);
+        Venta buscar = ventaRepository.find(Consola.ingresarXInteger("id de la venta"));
+        if (buscar != null ) ventaView.mostrarVenta(buscar);
         else throw new InvalidIdNotFound("No se ha encontrado una venta");
     }
     public void update() throws InvalidIdNotFound{
-        Venta buscar = this.ventaRepository.find(Consola.ingresarXInteger("id de la venta"));
+        Venta buscar = ventaRepository.find(Consola.ingresarXInteger("id de la venta"));
         if (buscar == null )throw new InvalidIdNotFound("No se ha encontrado una venta.");
         modifVenta(buscar);
     }
     public void remover() throws InvalidIdNotFound{
-        Venta buscar = this.ventaRepository.find(Consola.ingresarXInteger("id de la venta"));
+        Venta buscar = ventaRepository.find(Consola.ingresarXInteger("id de la venta"));
         if (buscar == null )throw new InvalidIdNotFound("No se ha encontrado una venta.");
         try {
-            this.ventaRepository.remove(buscar.getIdVenta());
+            ventaRepository.remove(buscar.getIdVenta());
         } catch (Exception e) {
             Consola.soutString(e.getMessage());
         }
@@ -70,7 +70,7 @@ public class VentaController {
 
     public void modifVenta(Venta venta){
         while (true){
-            this.ventaView.printMenuModifVenta();
+            ventaView.printMenuModifVenta();
             switch (Consola.ingresarXInteger("eleccion")){
                 case 1: //empleado
                     empleadosController.modificarEmpleado(venta.getEmpleados());
@@ -98,7 +98,7 @@ public class VentaController {
 
     public void updateFecha(LocalDate fecha){
         while (true) {
-            this.ventaView.printMenuModifFecha();
+            ventaView.printMenuModifFecha();
             Integer choice = Consola.ingresarXInteger("eleccion");
             switch (choice) {
                 case 1:
@@ -146,7 +146,7 @@ public class VentaController {
     public void menuVentas(){
         int eleccion;
         while (true){
-            this.ventaView.printMenuVentas();
+            ventaView.printMenuVentas();
             eleccion = Consola.ingresarXInteger("eleccion");
             switch(eleccion){
                 case 0: //salir
@@ -187,7 +187,7 @@ public class VentaController {
                     }
                     break;
                 case 5: //mostrar todas
-                    this.ventaView.mostrarHistorial(this.ventaRepository.getMap());
+                    ventaView.mostrarHistorial(ventaRepository.getMap());
                     break;
                 default:
                     Consola.soutString("ingresar un dato valido");

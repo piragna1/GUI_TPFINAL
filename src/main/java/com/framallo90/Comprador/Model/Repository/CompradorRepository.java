@@ -29,7 +29,10 @@ public class CompradorRepository implements IRepository<Comprador,Integer> {
             if(listaCompradores == null){
                 listaCompradores = new HashSet<>();
             }
-        }catch (IOException e){
+        } catch (FileNotFoundException e){
+            listaCompradores = new HashSet<>();
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
     }

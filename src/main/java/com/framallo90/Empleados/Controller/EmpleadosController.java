@@ -15,12 +15,12 @@ public class EmpleadosController {
     /**
      * Repositorio de datos para la gestión de empleados.
      */
-    private EmpleadosRepository empleadosRepository;
+    private static EmpleadosRepository empleadosRepository;
 
     /**
      * Vista para la interacción con el usuario.
      */
-    private EmpleadosView empleadosView;
+    private static EmpleadosView empleadosView;
 
     /**
      * Constructor del controlador.
@@ -29,8 +29,8 @@ public class EmpleadosController {
      * @param empleadosView Vista para la interacción con el usuario.
      */
     public EmpleadosController(EmpleadosRepository empleadosRepository, EmpleadosView empleadosView) {
-        this.empleadosRepository = empleadosRepository;
-        this.empleadosView = empleadosView;
+        EmpleadosController.empleadosRepository = empleadosRepository;
+        EmpleadosController.empleadosView = empleadosView;
     }
 
     /**
@@ -138,13 +138,13 @@ public class EmpleadosController {
     }
 
     //documentar
-    public Empleados find(Integer id){
-        Empleados buscar = this.empleadosRepository.find(id);
+    public static Empleados find(Integer id){
+        Empleados buscar = empleadosRepository.find(id);
         return buscar;
     }
 
     public void mostrar(){
-        Empleados buscar = this.empleadosRepository.find(Consola.ingresarXInteger("id del empleado"));
+        Empleados buscar = empleadosRepository.find(Consola.ingresarXInteger("id del empleado"));
         if (buscar == null )Consola.soutString("No se ha encontrado el empleado.");
         else {this.empleadosView.mostrarEmpleado(buscar);}
     }
