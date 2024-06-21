@@ -1,31 +1,22 @@
-
-
 package com.framallo90.Comprador.Controller;
-
 import com.framallo90.Comprador.Model.Entity.Comprador;
 import com.framallo90.Comprador.Model.Repository.CompradorRepository;
 import com.framallo90.Comprador.View.CompradorView;
 import com.framallo90.Excepciones.InvalidIdNotFound;
 import com.framallo90.consola.Consola;
-
 public class CompradorController {
     private static CompradorView compradorView; //julian alvarez
     private static CompradorRepository compradorRepository;
-
     public CompradorController(CompradorView compradorView,CompradorRepository compradorRepository) {
         CompradorController.compradorView = compradorView;
         CompradorController.compradorRepository = compradorRepository;
     }
-
     public static void setCompradorRepository(CompradorRepository compradorRepository) {
         CompradorController.compradorRepository = compradorRepository;
     }
-
     public static void setCompradorView(CompradorView compradorView) {
         CompradorController.compradorView = compradorView;
     }
-
-
     public void compradorMenu(){
         int opt;
         do {
@@ -41,34 +32,27 @@ public class CompradorController {
                 case 1:
                     add();
                     break;
-
                 case 2:
                     update();
                     break;
-
                 case 3:
                     remove();
                     break;
-
                 case 4:
                     show();
                     break;
-
                 case 5:
                     verHisorial();
                     break;
-
                 case 6:
                     System.out.println("Saliendo....");
                     break;
-
                 default:
                     System.out.println("Opcion invalida vuelva a intentarlo");
                     break;
             }
         }while (opt!=6);
     }
-
     public static void add(){
         String nombre = Consola.ingresarXString("nombre");
         String apellido = Consola.ingresarXString("apellido");
@@ -82,7 +66,6 @@ public class CompradorController {
     public static void add(Comprador comprador){
         compradorRepository.add(comprador);
     }
-
     public void remove(){
         try {
             compradorRepository.remove(Consola.ingresarXInteger("id"));
@@ -90,7 +73,6 @@ public class CompradorController {
             System.out.println(e.getMessage());
         }
     }
-
     public void update()
     {
         int opt;
@@ -170,16 +152,14 @@ public class CompradorController {
     }
     public void show()
     {
-        Integer id = Consola.ingresarXInteger("id del comprador buscado");
+        Integer id = Consola.ingresarXInteger("dni del comprador buscado");
         Comprador comprador = compradorRepository.find(id);
         if (comprador != null)
             compradorView.muestroUnComprador(comprador);
     }
-
     public static Comprador find (Integer id){
         return compradorRepository.find(id);
     }
-
     public void verHisorial(){
         compradorView.muestroCompradores(compradorRepository.getListaCompradores());
     }

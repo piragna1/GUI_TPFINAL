@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BuscarCliente extends JFrame {
+    private Comprador selectedComprador;
+    public ClienteEncontrado callback;
     private JPanel buscarCliente;
     private JPanel panel;
     private JTextField dniInput;
@@ -42,7 +44,7 @@ public class BuscarCliente extends JFrame {
     public BuscarCliente(Login login, CompradorController compradorController,
                          AutomovilController automovilController,
                          EmpleadosController empleadosController,
-                         VentaController ventaController)  {
+                         VentaController ventaController, ClienteEncontrado callback)  {
         setContentPane(buscarCliente);
         setTitle("Buscar cliente");
         setSize(450,450);
@@ -57,7 +59,7 @@ public class BuscarCliente extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                Clientes clientes = new Clientes(login, compradorController,automovilController,empleadosController,ventaController);
+                new Clientes(login, compradorController,automovilController,empleadosController,ventaController);
                 dispose();
             }
         });
@@ -89,5 +91,21 @@ public class BuscarCliente extends JFrame {
                 }
             }
         });
+
+        btnAceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (selectedComprador != null) {
+                    // Cliente encontrado, call the callback with the selectedComprador
+                    callback.clienteEncontrado(selectedComprador);
+                    dispose(); // Close the window
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
+                }
+            }
+        });
+    }
+    public interface ClienteEncontrado {
+        void clienteEncontrado(Comprador comprador);
     }
 }

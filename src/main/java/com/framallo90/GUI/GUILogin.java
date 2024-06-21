@@ -43,8 +43,7 @@ public class GUILogin extends JFrame{
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MenuAdmin menuAdmin;
-                Empleados empleados = null;
+                Empleados empleados;
                 while (true){
                 String userName = username.getText();
                 String password = GUILogin.this.password.getText();

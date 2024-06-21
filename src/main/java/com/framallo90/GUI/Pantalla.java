@@ -33,7 +33,7 @@ public class Pantalla extends JFrame {
             //SET "invisible" menú principal
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUILogin guiLogin = new GUILogin(login,compradorController,automovilController,empleadosController,ventaController);
+                new GUILogin(login,compradorController,automovilController,empleadosController,ventaController);
                 setVisible(false);
             }
         });

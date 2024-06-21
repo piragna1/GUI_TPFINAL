@@ -18,7 +18,6 @@ public class UsuarioView {
         if (dniString.length() != 8 || !dniString.matches("[0-9]+")) {
             return false;
         }
-        // Add additional DNI validation if needed (e.g., checksum)
         return true;
     }
 

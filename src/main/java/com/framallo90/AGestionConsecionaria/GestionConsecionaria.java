@@ -15,6 +15,8 @@ import com.framallo90.MetodoDePago.View.MetodoView;
 import com.framallo90.Venta.Controller.VentaController;
 import com.framallo90.Venta.Model.Repository.VentaRepository;
 import com.framallo90.Venta.View.VentaView;
+import com.framallo90.consola.Consola;
+
 public class GestionConsecionaria {
     private static  CompradorController compradorController;
     private static  EmpleadosController empleadosController ;
@@ -27,6 +29,7 @@ public class GestionConsecionaria {
         AutomovilView automovilView = new AutomovilView();
         VentaView ventaView = new VentaView();
         CompradorRepository compradorRepository = new CompradorRepository();
+        Consola.soutString(compradorRepository.find(43632545).toString());
         EmpleadosRepository empleadosRepository = new EmpleadosRepository();
         AutomovilRepository automovilRepository = new AutomovilRepository();
         VentaRepository ventaRepository = new VentaRepository();
@@ -35,6 +38,7 @@ public class GestionConsecionaria {
         automovilController = new AutomovilController(automovilRepository, automovilView);
         MetodoController metodoController = new MetodoController(metodoView);
         ventaController = new VentaController(empleadosController,compradorController,automovilController, metodoController, ventaView, ventaRepository);
+        compradorController.show();
         Login login = new Login();
         ejecucion(login);
     //    CompradorView compradorView = new CompradorView();
