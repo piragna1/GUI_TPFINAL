@@ -25,7 +25,7 @@ public class EmpleadosView {
         nombre = Consola.ingresarXString("nombre");
         apellido = Consola.ingresarXString("apellido");
         dni = Consola.ingresarXInteger("dni");
-        Consola.limpiarBuffer();
+//        Consola.limpiarBuffer();
         username = Consola.ingresarXStringSimple("username");
         while (true){
             password = Consola.ingresarXStringSimple("password");
@@ -77,12 +77,13 @@ public class EmpleadosView {
 
     //DOCUMENTAR
     public void printMenuAdministrador(){
+        System.out.println("MENU EMPLEADOS (administrador)");
         System.out.println("1. Agregar empleado.");
         System.out.println("2. Modificar empleado.");
         System.out.println("3. Eliminar empleado.");
         System.out.println("4. Buscar un empleado");
-        System.out.println("5. Historial de empleados.");
-        System.out.println("6. SALIR.");
+        System.out.println("5. Historial de empleado.");
+        System.out.println("0. Volver.");
     }
 
     public void mostrarEmpleado(Empleados empleados){

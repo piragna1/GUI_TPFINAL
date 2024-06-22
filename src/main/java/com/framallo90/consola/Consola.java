@@ -67,15 +67,20 @@ public class Consola {
      */
     public static Integer ingresarXInteger(String x) {
         System.out.println("Ingresar " + x + ": ");
-        while (!scanner.hasNextInt()) {
-            System.out.println("El dato ingresado no es valido. Por favor, ingrese un número entero:");
-            scanner.next(); // Limpiar la entrada no válida
-        }
-        Integer numero = scanner.nextInt();
-        scanner.nextLine(); // buffer
-        if (numero < 0) {
-            throw new IllegalArgumentException("El numero debe ser mayor o igual a 0.");
-        }
+        Integer numero;
+        do {
+            while (!scanner.hasNextInt()) {
+                System.out.println("El dato ingresado no es valido. Por favor, ingrese un número entero:");
+                scanner.next(); // Limpiar la entrada no válida
+            }
+
+            numero = scanner.nextInt();
+            scanner.nextLine(); // buffer
+            if (numero < 0) {
+                System.out.print("No se aceptan numeros negativos, ingrese una opcion valida... -> ");
+            }
+        }while (numero < 0);
+
         return numero;
     }
 
@@ -163,25 +168,26 @@ public class Consola {
 
     public static void printMenuVendedor(){
         System.out.println("""
-                VENDEDOR
-                1. gestión de clientes
-                2. gestión de ventas
-                3. stock de carros
-                0. salir""");
+                MENÚ VENDEDOR
+                1. Gestión clientes
+                2. Gestión ventas
+                3. Stock carros
+                0. Cerrar sesión
+                """);
     }
 
     public static void printMenuAdministrador(){
         System.out.println("""
-                ADMINISTRADOR
-                1. gestión de clientes
-                2. gestión de ventas
-                3. gestión de carros
-                4. gestión de usuarios
-                0. salir""");
+                MENÚ ADMINISTRADOR
+                1. Gestión clientes
+                2. Gestión ventas
+                3. Gestión carros
+                4. Gestión usuarios
+                0. Cerrar sesión""");
     }
     public static void gestionClientes(){
         System.out.println("""
-                GESTION DE CLIENTES
+                GESTIÓN CLIENTES
                 1. agregar cliente
                 2. modificar cliente
                 3. remover cliente
@@ -191,7 +197,7 @@ public class Consola {
     }
     public static void gestionVentas(){
         System.out.println("""
-                GESTION DE VENTAS
+                GESTIÓN VENTAS
                 1. iniciar venta
                 2. ver historial de ventas
                 0. salir
@@ -201,7 +207,7 @@ public class Consola {
 
     public static void gestionCarros(){
         System.out.println("""
-                GESTION DE CARROS
+                GESTIóN CARROS
                 1. agregar 
                 2. modificar 
                 3. remover
@@ -212,7 +218,7 @@ public class Consola {
     }
     public static void gestionUsuarios(){
         System.out.println("""
-                GESTION DE USUARIOS
+                GESTIÓN USUARIOS
                 1. agregar usuario
                 2. modificar usuario
                 3. remover usuario
@@ -222,7 +228,9 @@ public class Consola {
 
     public static void printMenuLogin(){
         System.out.println("""
-                1. iniciar sesión
-                0. salir del programa""");
+        <<<<<<<<<<¡BIENVENIDO!>>>>>>>>>>
+         1. Iniciar sesión
+                  0. Salir del programa
+        <<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>""");
     }
 }

@@ -15,12 +15,12 @@ public class EmpleadosController {
     /**
      * Repositorio de datos para la gestión de empleados.
      */
-    private static EmpleadosRepository empleadosRepository;
+    private EmpleadosRepository empleadosRepository;
 
     /**
      * Vista para la interacción con el usuario.
      */
-    private static EmpleadosView empleadosView;
+    private EmpleadosView empleadosView;
 
     /**
      * Constructor del controlador.
@@ -29,8 +29,8 @@ public class EmpleadosController {
      * @param empleadosView Vista para la interacción con el usuario.
      */
     public EmpleadosController(EmpleadosRepository empleadosRepository, EmpleadosView empleadosView) {
-        EmpleadosController.empleadosRepository = empleadosRepository;
-        EmpleadosController.empleadosView = empleadosView;
+        this.empleadosRepository = empleadosRepository;
+        this.empleadosView = empleadosView;
     }
 
     /**
@@ -55,7 +55,7 @@ public class EmpleadosController {
      * Permite al usuario modificar un empleado existente.
      */
     public void modificarEmpleado() {
-        Integer idEmpleado = Consola.ingresarXInteger("dni del empleado");
+        Integer idEmpleado = Consola.ingresarXInteger("ID del empleado");
         Empleados empleadoAModificar = empleadosRepository.find(idEmpleado);
 
         if (empleadoAModificar != null) {
@@ -78,19 +78,16 @@ public class EmpleadosController {
     private void modificacion(Empleados empleado) {
         while (true) {
             Consola.soutString("""
-                         opción para modifación:
-                         1) nombre
-                         2) apellido
-                         3) cantidad de autos vendidos
-                         4) username
-                         5) password
-                         6) tipo de empleado
-                         0) salir
+                         MODIFICACIÓN EMPLEADO
+                         1. Nombre
+                         2. Apellido
+                         3. Cantidad de autos vendidos
+                         4. Username
+                         5. Password
+                         6. Tipo del empleado
+                         0. Volver
                          """);
-
             String opcion = String.valueOf(Consola.ingresarXInteger("opcion"));
-            Consola.limpiarBuffer();
-
             switch (opcion) {
                 case "0":
                     // Salir del menú de modificación.
@@ -138,21 +135,19 @@ public class EmpleadosController {
     }
 
     //documentar
-    public static Empleados find(Integer id){
-        Empleados buscar = empleadosRepository.find(id);
+    public Empleados find(Integer id){
+        Empleados buscar = this.empleadosRepository.find(id);
         return buscar;
     }
 
     public void mostrar(){
-        Empleados buscar = empleadosRepository.find(Consola.ingresarXInteger("id del empleado"));
+        Empleados buscar = this.empleadosRepository.find(Consola.ingresarXInteger("id del empleado"));
         if (buscar == null )Consola.soutString("No se ha encontrado el empleado.");
         else {this.empleadosView.mostrarEmpleado(buscar);}
     }
-
     public void mostrarHistorial(){
         this.empleadosView.muestroEmpleados(this.empleadosRepository.getList());
     }
-
     public void menuControllerEmpleados()
     {
         int opt;
@@ -160,30 +155,31 @@ public class EmpleadosController {
             this.empleadosView.printMenuAdministrador();
             opt = Consola.ingresarXInteger("opcion");
             switch (opt){
+                case 0:
+                    System.out.println("Saliendo....");
+                    break;
                 case 1:
                     crearEmpleado();
                     break;
                 case 2:
+                    mostrarHistorial();
                     modificarEmpleado();
                     break;
                 case 3:
+                    mostrarHistorial();
                     removeEmpleado();
                     break;
                 case 4:
+                    mostrarHistorial();
                     mostrar();
                     break;
                 case 5:
                     mostrarHistorial();
                     break;
-                case 6:
-                    System.out.println("Saliendo....");
-                    break;
                 default:
                     System.out.println("Opcion invalida vuelva a intentarlo");
                     break;
             }
-        }while (opt!=6);
+        }while (opt!=0);
     }
-
-
 }

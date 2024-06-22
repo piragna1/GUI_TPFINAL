@@ -1,11 +1,8 @@
 package com.framallo90.Automovil.View;
-
 import com.framallo90.Automovil.Model.Entity.Automovil;
 import com.framallo90.Excepciones.EmptyAStockException;
 import com.framallo90.consola.Consola;
-
 import java.util.List;
-
 public class AutomovilView {
     public AutomovilView() {
     }
@@ -30,7 +27,6 @@ public class AutomovilView {
     public String ingresoMarca(){
         return Consola.ingresarXString("marca");
     }
-
     public String ingresoModelo(){
         return Consola.ingresarXStringSimple("modelo");
     }
@@ -50,11 +46,9 @@ public class AutomovilView {
                 MENU AUTOMOVIL (administrador)
                 1. Agregar 
                 2. Borrar 
-                3. Modificar
-                4. Buscar automovil
-                5. Lista automoviles
-                6. Lista automoviles (con filtro)
-                0. Atras""");
+                3. Buscar automovil
+                4. Lista automoviles (con filtro)
+                0. Volver""");
     }
     public void printMenuAutomovilVendedor(){
         System.out.println("""
@@ -62,6 +56,6 @@ public class AutomovilView {
                 1. Buscar automovil
                 2. Lista automoviles
                 3. Lista automoviles (con filtro)
-                0. Atras""");
+                0. Volver""");
     }
 }
