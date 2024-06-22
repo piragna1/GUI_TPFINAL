@@ -9,6 +9,7 @@ import com.framallo90.Comprador.View.CompradorView;
 import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.Empleados.Model.Repository.EmpleadosRepository;
 import com.framallo90.Empleados.View.EmpleadosView;
+import com.framallo90.Login.Login;
 import com.framallo90.MetodoDePago.Controller.MetodoController;
 import com.framallo90.MetodoDePago.View.MetodoView;
 import com.framallo90.Venta.Controller.VentaController;
@@ -30,9 +31,8 @@ public class Main {
         VentaView ventaView = new VentaView();
         VentaRepository ventaRepository = new VentaRepository();
         VentaController ventaController = new VentaController(empleadosController,compradorController,automovilController,metodoController,ventaView,ventaRepository);
-        GestionConsecionaria gestionConsecionaria = new GestionConsecionaria(compradorView,compradorRepository,compradorController,empleadosView
-        ,empleadosRepository,empleadosController,metodoView,metodoController,automovilView,
-                automovilRepository,automovilController,ventaView,ventaRepository,ventaController);
+        Login login = new Login();
+        GestionConsecionaria gestionConsecionaria = new GestionConsecionaria(compradorController,empleadosController,metodoController,automovilController,ventaController, login);
         gestionConsecionaria.iniciar();
     }
 }

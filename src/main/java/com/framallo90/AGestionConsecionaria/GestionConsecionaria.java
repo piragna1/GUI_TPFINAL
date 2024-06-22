@@ -17,35 +17,21 @@ import com.framallo90.Venta.Model.Repository.VentaRepository;
 import com.framallo90.Venta.View.VentaView;
 import com.framallo90.consola.Consola;
 public class GestionConsecionaria {
-    private CompradorView compradorView;
-    private CompradorRepository compradorRepository;
     private CompradorController compradorController;
-    private EmpleadosView empleadosView;
-    private EmpleadosRepository empleadosRepository;
     private EmpleadosController empleadosController;
-    private MetodoView metodoView;
     private MetodoController metodoController;
-    private AutomovilView automovilView ;
-    private AutomovilRepository automovilRepository;
     private AutomovilController automovilController;
     private VentaView ventaView;
     private VentaRepository ventaRepository;
     private VentaController ventaController;
-    public GestionConsecionaria(CompradorView compradorView, CompradorRepository compradorRepository, CompradorController compradorController, EmpleadosView empleadosView, EmpleadosRepository empleadosRepository, EmpleadosController empleadosController, MetodoView metodoView, MetodoController metodoController, AutomovilView automovilView, AutomovilRepository automovilRepository, AutomovilController automovilController, VentaView ventaView, VentaRepository ventaRepository, VentaController ventaController) {
-        this.compradorView = compradorView;
-        this.compradorRepository = compradorRepository;
+    private Login login;
+    public GestionConsecionaria(CompradorController compradorController, EmpleadosController empleadosController, MetodoController metodoController,  AutomovilController automovilController,  VentaController ventaController, Login login) {
         this.compradorController = compradorController;
-        this.empleadosView = empleadosView;
-        this.empleadosRepository = empleadosRepository;
         this.empleadosController = empleadosController;
-        this.metodoView = metodoView;
         this.metodoController = metodoController;
-        this.automovilView = automovilView;
-        this.automovilRepository = automovilRepository;
         this.automovilController = automovilController;
-        this.ventaView = ventaView;
-        this.ventaRepository = ventaRepository;
         this.ventaController = ventaController;
+        this.login = login;
     }
     public void iniciar(){
         Consola.soutString("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n" +

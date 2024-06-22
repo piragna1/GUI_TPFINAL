@@ -1,5 +1,4 @@
 package com.framallo90.GUI;
-
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Empleados.Controller.EmpleadosController;
