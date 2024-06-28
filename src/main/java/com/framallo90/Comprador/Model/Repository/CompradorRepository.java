@@ -14,102 +14,135 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class CompradorRepository implements IRepository<Comprador,Integer> {
+/**
+ * La clase {@code CompradorRepository} implementa la interfaz {@code IRepository} y proporciona métodos
+ * para gestionar una colección de objetos {@code Comprador}, incluyendo operaciones de CRUD y persistencia de datos en un archivo JSON.
+ */
+public class CompradorRepository implements IRepository<Comprador, Integer> {
     private static final String FILE_PATH = "src/main/resources/Compradores.json";
     private Gson gson = new Gson();
-    private Set<Comprador> listaCompradores = new HashSet<>();
+    private Set<Comprador> setCompradores = new HashSet<>();
 
+    /**
+     * Crea una nueva instancia de {@code CompradorRepository} y carga los datos desde el archivo JSON.
+     */
     public CompradorRepository() {
         loadFile();
     }
-
-    public void loadFile(){
-        try (Reader reader = new FileReader(FILE_PATH)){
-            Type setType = new TypeToken<Set<Comprador>>(){}.getType();
-            listaCompradores = gson.fromJson(reader, setType);
-            if(listaCompradores == null){
-                listaCompradores = new HashSet<>();
-            }else{
-                Integer mayor = listaCompradores.stream().mapToInt(c->c.getId()).max().getAsInt();
+    /**
+     * Carga los datos de compradores desde el archivo JSON.
+     * Si el archivo está vacío, inicializa una nueva colección de compradores.
+     * Si hay datos, establece el contador de identificadores al valor máximo encontrado.
+     */
+    public void loadFile() {
+        try (Reader reader = new FileReader(FILE_PATH)) {
+            Type setType = new TypeToken<Set<Comprador>>() {}.getType();
+            setCompradores = gson.fromJson(reader, setType);
+            if (setCompradores == null) {
+                setCompradores = new HashSet<>();
+            } else {
+                Integer mayor = setCompradores.stream().mapToInt(Comprador::getId).max().getAsInt();
                 Comprador.setCont(mayor);
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateFile(){
-        try(Writer writer = new FileWriter(FILE_PATH)){
-            gson.toJson(listaCompradores,writer);
-
-        }catch (IOException e){
+    /**
+     * Actualiza el archivo JSON con los datos actuales de la colección de compradores.
+     */
+    public void updateFile() {
+        try (Writer writer = new FileWriter(FILE_PATH)) {
+            gson.toJson(setCompradores, writer);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
+    /**
+     * Añade un nuevo comprador a la colección y actualiza el archivo JSON.
+     *
+     * @param object el comprador a añadir
+     */
     @Override
     public void add(Comprador object) {
-        listaCompradores.add(object);
-        updateFile();
+        if(setCompradores.add(object)){
+            updateFile();
+        }else{
+            Consola.soutAlertString("DNI ya existente, no se agregara");
+        }
+
     }
 
+    /**
+     * Elimina un comprador de la colección por su identificador y actualiza el archivo JSON.
+     *
+     * @param id el identificador del comprador a eliminar
+     */
     @Override
-    public void remove(Integer id) {
+    public void remove(Integer id) throws InvalidIdNotFound{
         Comprador remove = find(id);
         if (remove != null) {
-            listaCompradores.remove(remove);
+            setCompradores.remove(remove);
             updateFile();
-        }
-    }
-
-    @Override
-    public void update(Integer id) throws InvalidIdNotFound {
-        Comprador comprador = find(id);
-        if (comprador != null)
-        {
-            /// terminar
-        }else
-            throw new InvalidIdNotFound("El id ingresado no existe.");
-    }
-
-    @Override
-    public Comprador find(Integer id) {
-        if (this.listaCompradores.isEmpty()) {
-            Consola.soutString("Aún no hay clientes registrados.");
-            return null;
-        }
-        Optional<Comprador> devol = this.listaCompradores.stream().filter(c ->c.getId().equals(id)).findFirst();
-        if(devol.isEmpty()){
-            System.out.println("El comprador con id:"+id+", no existe, intentelo nuevamente.");
-            return null;
         }else{
-            return  devol.get();
+            throw new InvalidIdNotFound("Id no encontrado");
         }
     }
+    /**
+     * Actualiza la información de un comprador por su identificador.
+     * (Método incompleto, necesita implementación)
+     *
+     * @param id el identificador del comprador a actualizar
+     * @throws InvalidIdNotFound si el comprador con el id especificado no existe
+     */
+    public void update(Integer id,Comprador nuevoComprador) throws InvalidIdNotFound {
 
-    public void cambioNombre(Comprador comprador, String nuevoNom){
-        comprador.setNombre(nuevoNom);
-        updateFile();
+        boolean flag = false;
+        for(Comprador comp: this.setCompradores){
+            if(comp.getId().equals(id)){
+
+                comp.setNombre(nuevoComprador.getNombre());
+                comp.setApellido(nuevoComprador.getApellido());
+                comp.setEmail(nuevoComprador.getEmail());
+                comp.setDni(nuevoComprador.getDni());
+
+                updateFile();
+                flag = true;
+                break;
+            }
+        }
+        if(flag==false){
+            throw new InvalidIdNotFound();
+        }
+
+
     }
+    @Override
+    public Comprador find(Integer id) throws InvalidIdNotFound{
 
-    public void cambioApellido(Comprador comprador, String nuevoApellido){
-        comprador.setApellido(nuevoApellido);
-        updateFile();
+        Optional<Comprador> devol = this.setCompradores.stream().filter(c -> c.getId().equals(id)).findFirst();
+        if (!devol.isEmpty()) {
+            return devol.get();
+        }else{
+            throw new InvalidIdNotFound("No se han encontrado Compradores con ese ID");
+        }
     }
-
-    public void cambioDni(Comprador comprador, Integer dni){
-        comprador.setDni(dni);
-        updateFile();
+    private boolean compruebaDni(Integer dni){
+        for (Comprador comprador: this.setCompradores){
+            if(comprador.getDni().equals(dni)){
+                return true;
+            }
+        }
+        return false;
     }
-
-    public void cambioEmail(Comprador comprador, String nuevoEmail){
-        comprador.setEmail(nuevoEmail);
-        updateFile();
+    /**
+     * Obtiene la colección de todos los compradores.
+     *
+     * @return un conjunto de todos los compradores
+     */
+    public Set<Comprador> getsetCompradores() {
+        return setCompradores;
     }
-
-    public Set<Comprador> getListaCompradores() {
-        return listaCompradores;
-    }
-
 }

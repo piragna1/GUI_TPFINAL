@@ -27,129 +27,99 @@ public class CompradorController {
                     add();
                     break;
                 case 2:
-                    this.verHisorial();
-                    update();
+                    verHisorial();
+                    Comprador comprador;
+                    try {
+                        comprador = compradorRepository.find(Consola.ingresarXInteger("el ID del Comprador"));
+                        System.out.println("1. Nombre");
+                        System.out.println("2. Apellido");
+                        System.out.println("3. DNI");
+                        System.out.println("4. E-Mail");
+
+                        System.out.println("0. Volver");
+                        opt = Consola.ingresarXInteger("un campo para modificar de Comprado");
+
+                        switch (opt) {
+                            case 1:
+                                comprador.setNombre(Consola.ingresarXString("el Nuevo Nombre"));
+                                this.compradorRepository.update(comprador.getId(),comprador);
+                                break;
+                            case 2:
+                                comprador.setApellido(Consola.ingresarXString("el Nuevo Apellido"));
+                                this.compradorRepository.update(comprador.getId(),comprador);
+                                break;
+                            case 3:
+                                comprador.setDni(Consola.ingresarXInteger("el Nuevo DNI"));
+                                this.compradorRepository.update(comprador.getId(),comprador);
+                                break;
+                            case 4:
+                                comprador.setEmail(compradorView.ingresoEmail());
+                                this.compradorRepository.update(comprador.getId(),comprador);
+                                break;
+                            case 0:
+                                break;
+                            default:
+                                Consola.soutAlertString("Opción Inválida. Reintentar!.");
+                                break;
+                        }
+                        this.compradorRepository.update(comprador.getId(),comprador);
+                    } catch (InvalidIdNotFound e) {
+                        Consola.soutAlertString(e.getMessage());
+                    }
+
                     break;
                 case 3:
-                    this.verHisorial();
+                    verHisorial();
                     remove();
                     break;
-
-                case 4: //buscar
-                    this.verHisorial();
+                case 4:
+                    verHisorial();
                     show();
                     break;
-
-                case 5: //ver todos
+                case 5:
                     verHisorial();
                     break;
-
-                case 6:
-                    System.out.println("Saliendo....");
+                case 0:
+                    System.out.println("Saliste del Menu Cliente.");
                     break;
-
                 default:
-                    System.out.println("Opcion invalida vuelva a intentarlo");
+                    Consola.soutAlertString("Opción Inválida. Reintentar!.");
                     break;
             }
-        }while (opt!=0);
+
+        } while (opt != 0);
     }
-    public void add(){
-        String nombre = Consola.ingresarXString("nombre");
-        String apellido = Consola.ingresarXString("apellido");
-        Integer dni = Consola.ingresarXInteger("dni");
+    public void add() {
+        String nombre = Consola.ingresarXString("el Nombre");
+        String apellido = Consola.ingresarXString("el Apellido");
+        Integer dni = Consola.ingresarXInteger("el DNI");
         String email = compradorView.ingresoEmail();
-        Comprador comprador = new Comprador(nombre,apellido,dni,email);
+        Comprador comprador = new Comprador(nombre, apellido, dni, email);
         this.compradorRepository.add(comprador);
     }
-    public void remove(){
-        compradorRepository.remove(Consola.ingresarXInteger("id"));
-    }
-    public void update()
-    {
-        int opt;
-        Comprador comprador = compradorRepository.find(Consola.ingresarXInteger("id"));
-        if (comprador != null){
-            do{
-                System.out.println("1. Nombre");
-                System.out.println("2. Apellido");
-                System.out.println("3. DNI");
-                System.out.println("4. E-Mail");
-                System.out.println("5. SALIR.");
-                System.out.println("Ingrese el id del cliente a modificar: ");
-                opt = Consola.ingresarXInteger("elemento a modificar");
-                switch (opt){
-                    case 0:
-                        System.out.println("Saliendo....");
-                        break;
-                    case 1:
-                        compradorRepository.cambioNombre(comprador,Consola.ingresarXString("nuevo nombre"));
-                        break;
-                    case 2:
-                        compradorRepository.cambioApellido(comprador,Consola.ingresarXString("nuevo apellido"));
-                        break;
-                    case 3:
-                        compradorRepository.cambioDni(comprador, Consola.ingresarXInteger("nuevo DNI"));
-                        break;
-                    case 4:
-                        compradorRepository.cambioEmail(comprador, compradorView.ingresoEmail());
-                        break;
-                    default:
-                        System.out.println("Opcion invalida, vuelva a intentarlo.");
-                        break;
-                }
-            }while (opt != 0);
+    public void remove() {
+        try{
+            compradorRepository.remove(Consola.ingresarXInteger("el ID del Comprador"));
+        } catch (InvalidIdNotFound e) {
+            Consola.soutAlertString(e.getMessage());
         }
     }
-    //sobrecarga
-    public void update(Comprador comprador)
-    {
-        int opt;
-        do{
-            System.out.println("1. Nombre");
-            System.out.println("2. Apellido");
-            System.out.println("3. DNI");
-            System.out.println("4. E-Mail");
-            System.out.println("5. SALIR.");
-            opt = Consola.ingresarXInteger("elemento a modificar");
-            switch (opt){
-                case 1:
-                    compradorRepository.cambioNombre(comprador,Consola.ingresarXString("nuevo nombre"));
-                    break;
-
-                case 2:
-                    compradorRepository.cambioApellido(comprador,Consola.ingresarXString("nuevo apellido"));
-                    break;
-
-                case 3:
-                    compradorRepository.cambioDni(comprador, Consola.ingresarXInteger("nuevo DNI"));
-                    break;
-
-                case 4:
-                    compradorRepository.cambioEmail(comprador, compradorView.ingresoEmail());
-                    break;
-
-                case 5:
-                    System.out.println("Saliendo....");
-                    break;
-
-                default:
-                    System.out.println("Opcion invalida, vuelva a intentarlo.");
-                    break;
-            }
-        }while (opt != 5);
-    }
-    public void show()
-    {
-        Integer id = Consola.ingresarXInteger("id del comprador buscado");
-        Comprador comprador = compradorRepository.find(id);
-        if (comprador != null)
+    public void show() {
+        Integer id = Consola.ingresarXInteger("el ID del Comprador buscado");
+        try{
+            Comprador comprador = compradorRepository.find(id);
             compradorView.muestroUnComprador(comprador);
+        }catch (InvalidIdNotFound e){
+            Consola.soutAlertString(e.getMessage());
+        }
     }
-    public Comprador find (Integer id){
-        return compradorRepository.find(id);
+    public Comprador find(Integer id) throws InvalidIdNotFound{
+        this.compradorView.muestroCompradores(this.compradorRepository.getsetCompradores());
+        Comprador devol = this.compradorRepository.find(Consola.ingresarXInteger("id del comprador"));
+
+        return devol;
     }
-    public void verHisorial(){
-        compradorView.muestroCompradores(compradorRepository.getListaCompradores());
+    public void verHisorial() {
+        compradorView.muestroCompradores(this.compradorRepository.getsetCompradores());
     }
 }

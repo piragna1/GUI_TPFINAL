@@ -1,6 +1,5 @@
 package com.framallo90.GUI;
 import com.framallo90.Empleados.Model.Entity.Empleados;
-import com.framallo90.Excepciones.InicioSesionException;
 import com.framallo90.Login.Login;
 import com.framallo90.consola.Consola;
 
