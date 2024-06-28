@@ -20,16 +20,15 @@ public class EmpleadosView {
      * @return Un nuevo objeto Empleados con los datos ingresados.
      */
     public Empleados generarEmpleado() {
-        String nombre, apellido, username, password, tipo;
-        Integer dni;
+        String nombre, apellido, username, password, tipo,dni;
 
         nombre = Consola.ingresarXString("el Nombre");
         apellido = Consola.ingresarXString("el Apellido");
-        dni = Consola.ingresarXInteger("el DNI");
+        dni = Consola.ingresarXStringSimple("el DNI");
         while (!validarDNI(dni))
         {
             Consola.soutAlertString("ERROR! El documento NO es válido. Reintentar.");
-            dni = Consola.ingresarXInteger("nuevamente el DNI");
+            dni = Consola.ingresarXStringSimple("nuevamente el DNI");
         }
         username = Consola.ingresarXStringSimple("el Username");
         while (true){

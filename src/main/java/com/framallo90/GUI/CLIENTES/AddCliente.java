@@ -1,5 +1,6 @@
 package com.framallo90.GUI.CLIENTES;
 
+import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Empleados.Controller.EmpleadosController;
@@ -37,10 +38,7 @@ public class AddCliente extends JFrame {
      * @see Component#setVisible
      * @see JComponent#getDefaultLocale
      */
-    public AddCliente(Login login, CompradorController compradorController,
-                      AutomovilController automovilController,
-                      EmpleadosController empleadosController,
-                      VentaController ventaController)  {
+    public AddCliente(GestionConsecionaria gestionConsecionaria)  {
         setContentPane(addCliente);
         setTitle("Agregar cliente");
         setSize(450,450);
@@ -91,7 +89,7 @@ public class AddCliente extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                Clientes clientes = new Clientes(login,compradorController,automovilController,empleadosController,ventaController);
+                Clientes clientes = new Clientes(gestionConsecionaria);
                 dispose();
             }
         });
@@ -104,7 +102,7 @@ public class AddCliente extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                Clientes clientes = new Clientes(login,compradorController,automovilController,empleadosController,ventaController);
+                Clientes clientes = new Clientes(gestionConsecionaria);
                 dispose();
             }
         });

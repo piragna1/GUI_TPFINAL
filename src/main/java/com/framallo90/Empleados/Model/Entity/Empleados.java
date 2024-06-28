@@ -50,7 +50,7 @@ public class Empleados extends Usuario {
      * @param password      Contraseña para las credenciales de inicio de sesión del empleado.
      * @param tipo          Tipo de empleado dentro de la empresa (por ejemplo, "Vendedor", "Gerente").
      */
-    public Empleados(String nombre, String apellido, Integer dni, Integer autosvendidos, String username, String password, String tipo) {
+    public Empleados(String nombre, String apellido, String dni, Integer autosvendidos, String username, String password, String tipo) {
         super(nombre, apellido, dni);
         this.id = ++cont;
         this.autosvendidos = autosvendidos;

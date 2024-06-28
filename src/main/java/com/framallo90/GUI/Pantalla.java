@@ -1,4 +1,5 @@
 package com.framallo90.GUI;
+import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Empleados.Controller.EmpleadosController;
@@ -18,10 +19,7 @@ public class Pantalla extends JFrame {
     private JLabel introInicio;
     private JButton btnSalir;
 
-    public Pantalla (Login login, CompradorController compradorController,
-                     AutomovilController automovilController,
-                     EmpleadosController empleadosController,
-                     VentaController ventaController) {
+    public Pantalla (GestionConsecionaria gestionConsecionaria) {
         setContentPane(pantallaIncio);
         setTitle("Proyecto Final 3");
         setSize(500,500);
@@ -32,7 +30,7 @@ public class Pantalla extends JFrame {
             //SET "invisible" menú principal
             @Override
             public void actionPerformed(ActionEvent e) {
-                new GUILogin(login,compradorController,automovilController,empleadosController,ventaController);
+                new GUILogin(gestionConsecionaria);
                 setVisible(false);
             }
         });
@@ -53,7 +51,4 @@ public class Pantalla extends JFrame {
         });
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 }

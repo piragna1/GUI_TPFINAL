@@ -3,7 +3,6 @@ import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.Empleados.Model.Entity.Empleados;
-import com.framallo90.Empleados.Model.Repository.EmpleadosRepository;
 import com.framallo90.Login.Login;
 import com.framallo90.Venta.Controller.VentaController;
 import com.framallo90.consola.Consola;
@@ -12,11 +11,11 @@ import com.framallo90.consola.Consola;
  * Permite la gestión de compradores, empleados, automóviles, ventas y métodos de pago.
  */
 public class GestionConsecionaria {
-    private static CompradorController compradorController;
-    private static EmpleadosController empleadosController;
-    private static AutomovilController automovilController;
-    private static VentaController ventaController;
-    private static Login login;
+    public  CompradorController compradorController;
+    public  EmpleadosController empleadosController;
+    public  AutomovilController automovilController;
+    public VentaController ventaController;
+    public Login login;
     /**
      * Constructor de la clase GestionConsecionaria.
      * @param compradorController Controlador para la gestión de compradores.
@@ -25,12 +24,13 @@ public class GestionConsecionaria {
      * @param ventaController Controlador para la gestión de ventas.
      */
     public GestionConsecionaria(CompradorController compradorController, EmpleadosController empleadosController,
-                                AutomovilController automovilController, VentaController ventaController, Login login) {
-        GestionConsecionaria.compradorController = compradorController;
-        GestionConsecionaria.empleadosController = empleadosController;
-        GestionConsecionaria.automovilController = automovilController;
-        GestionConsecionaria.ventaController = ventaController;
-        GestionConsecionaria.login = login;
+                                AutomovilController automovilController,
+                                VentaController ventaController, Login login) {
+        this.compradorController = compradorController;
+        this.empleadosController = empleadosController;
+        this.automovilController = automovilController;
+        this.ventaController = ventaController;
+        this.login = login;
     }
 
     /**
@@ -38,7 +38,6 @@ public class GestionConsecionaria {
      * Incluye el proceso de login y la navegación de menús según el tipo de usuario.
      */
     public void iniciar() {
-        Login login = new Login();
         Empleados empleadoIngresado = null;
         int eleccion = 0;
         do {

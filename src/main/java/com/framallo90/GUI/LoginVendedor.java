@@ -1,4 +1,5 @@
 package com.framallo90.GUI;
+import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Empleados.Controller.EmpleadosController;
@@ -24,10 +25,7 @@ public class LoginVendedor extends JFrame{
     Empleados empleados = null;
 
     // MainFrame
-    public LoginVendedor (Login login, CompradorController compradorController,
-                          AutomovilController automovilController,
-                          EmpleadosController empleadosController,
-                          VentaController ventaController) {
+    public LoginVendedor (GestionConsecionaria gestionConsecionaria) {
         setTitle("Vendedor");
         setContentPane(loginVendedor);
         setSize(500,500);
@@ -36,7 +34,7 @@ public class LoginVendedor extends JFrame{
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Pantalla pantalla = new Pantalla(login,compradorController,automovilController,empleadosController,ventaController);
+                Pantalla pantalla = new Pantalla(gestionConsecionaria);
                 dispose();
             }
         });
@@ -47,7 +45,7 @@ public class LoginVendedor extends JFrame{
                 String contra = String.valueOf(contraVendedor.getPassword());
                 empleados = login.login(user,contra);
                 if (empleados == null) {
-                    new Pantalla(login,compradorController,automovilController,empleadosController,ventaController);
+                    new Pantalla(gestionConsecionaria);
                     dispose();
                 }
                 if (empleados.getTipo().equalsIgnoreCase("Vendedor")){

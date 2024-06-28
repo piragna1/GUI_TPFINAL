@@ -64,7 +64,7 @@ public class EmpleadosController {
      * @param dni El dni a verificar.
      * @return true si se encuentra un empleado con el mismo dni o false en caso de no haberlo encontrado.
      */
-    private boolean compruebaDni(Integer dni){
+    private boolean compruebaDni(String dni){
         for (Empleados empleados : this.empleadosRepository.getList()){
             if(empleados.getDni().equals(dni)){
                 return true;

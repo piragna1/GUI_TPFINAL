@@ -20,7 +20,7 @@ public class Comprador extends Usuario {
      * @param dni      el documento nacional de identidad del comprador
      * @param email    el email del comprador
      */
-    public Comprador(String nombre, String apellido, Integer dni, String email) {
+    public Comprador(String nombre, String apellido, String dni, String email) {
         super(nombre, apellido, dni);
         this.id = ++cont;
         this.email = email;

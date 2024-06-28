@@ -1,5 +1,6 @@
 package com.framallo90.GUI.CLIENTES;
 
+import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Comprador.Model.Entity.Comprador;
@@ -22,9 +23,7 @@ public class Clientes extends JFrame{
     private JButton btnVolver;
     private Comprador selectedComprador; // To store the found Comprador
 
-    public Clientes(Login login, CompradorController compradorController,
-                    AutomovilController automovilController, EmpleadosController empleadosController,
-                    VentaController ventaController){
+    public Clientes(GestionConsecionaria gestionConsecionaria){
         setContentPane(menuClientes);
         setTitle("Menu clientes");
         setSize(450,450);
@@ -36,7 +35,7 @@ public class Clientes extends JFrame{
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MenuAdmin(login,compradorController,automovilController,empleadosController,ventaController);
+                new MenuAdmin(gestionConsecionaria);
                 dispose();
             }
         });
@@ -45,7 +44,7 @@ public class Clientes extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GENERO CLIENTE
-                AddCliente addCliente = new AddCliente(login,compradorController,automovilController,empleadosController,ventaController);
+                AddCliente addCliente = new AddCliente(gestionConsecionaria);
                 dispose();
             }
         });
@@ -96,7 +95,7 @@ public class Clientes extends JFrame{
                 };
 
                 // Create BuscarCliente instance with the callback
-                new BuscarCliente(login, compradorController, automovilController, empleadosController, ventaController, callback);
+                new BuscarCliente(gestionConsecionaria);
                 dispose();
             }
         });

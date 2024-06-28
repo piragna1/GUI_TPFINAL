@@ -10,6 +10,7 @@ import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.Empleados.Model.Entity.Empleados;
 import com.framallo90.Empleados.Model.Repository.EmpleadosRepository;
 import com.framallo90.Empleados.View.EmpleadosView;
+import com.framallo90.GUI.Pantalla;
 import com.framallo90.Login.Login;
 import com.framallo90.MetodoDePago.Controller.MetodoController;
 import com.framallo90.MetodoDePago.View.MetodoView;
@@ -30,7 +31,7 @@ public class Main {
     static{
         EmpleadosRepository empleadosRepository = new EmpleadosRepository();
         if (!empleadosRepository.adminCreated())
-            empleadosRepository.add(new Empleados("A","A",99999999,0,"A","A","administrador"));
+            empleadosRepository.add(new Empleados("A","A","99999999",0,"A","A","administrador"));
     }
     /**
      * Método principal de la aplicación que inicializa y configura todos los componentes.
@@ -57,8 +58,8 @@ public class Main {
 
         VentaView ventaView = new VentaView();
         VentaRepository ventaRepository = new VentaRepository();
-        VentaController ventaController = new VentaController(empleadosController, compradorController,
-                automovilController, metodoController, ventaView, ventaRepository);
+        VentaController ventaController = new VentaController(compradorController,empleadosController,
+                automovilController,ventaView,ventaRepository,metodoController);
 
         Login login = new Login();
 
@@ -66,8 +67,7 @@ public class Main {
         GestionConsecionaria gestionConsecionaria = new GestionConsecionaria(compradorController, empleadosController,
                 automovilController, ventaController, login);
 
-        // Inicia la aplicación llamando al método iniciar de GestionConsecionaria
-        gestionConsecionaria.iniciar();
+        new Pantalla(gestionConsecionaria);
     }
 }
 //Vamos Julian Alvarez.

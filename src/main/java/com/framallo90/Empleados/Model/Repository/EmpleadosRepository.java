@@ -38,7 +38,7 @@ public class EmpleadosRepository implements IRepository<Empleados, Integer> {
     public EmpleadosRepository() {
         this.loadEmpleados();
         if (this.list.isEmpty()) {
-            Empleados admin = new Empleados("A", "A", 0, 0, "A", "A", "administrador");
+            Empleados admin = new Empleados("A", "A", "0", 0, "A", "A", "administrador");
             admin.setId(0);
             this.list.add(admin);
             this.saveEmpleados();
@@ -203,7 +203,7 @@ public class EmpleadosRepository implements IRepository<Empleados, Integer> {
      * @param nuevoDni El nuevo DNI del empleado.
      * @throws IllegalArgumentException Si el nuevo DNI ya pertenece a otro empleado.
      */
-    public void cambioDni(Empleados empleados, Integer nuevoDni) throws IllegalArgumentException{
+    public void cambioDni(Empleados empleados, String nuevoDni) throws IllegalArgumentException{
 
         empleados.setDni(nuevoDni);
         try {

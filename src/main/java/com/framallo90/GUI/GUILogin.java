@@ -1,4 +1,5 @@
 package com.framallo90.GUI;
+import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Empleados.Controller.EmpleadosController;
@@ -21,10 +22,7 @@ public class GUILogin extends JFrame{
     private JButton btnLogin;
     private JLabel textPassword;
     private JButton btnVolver;
-    public GUILogin(Login login, CompradorController compradorController,
-                    AutomovilController automovilController,
-                    EmpleadosController empleadosController,
-                    VentaController ventaController) {
+    public GUILogin(GestionConsecionaria gestionConsecionaria) {
         setTitle("Administrador");
         setSize(500,500);
         setContentPane(this.login);
@@ -34,7 +32,7 @@ public class GUILogin extends JFrame{
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Pantalla(login,compradorController, automovilController,empleadosController,ventaController);
+                new Pantalla(gestionConsecionaria);
                 dispose();
             }
         });
@@ -46,14 +44,14 @@ public class GUILogin extends JFrame{
                 while (empleados==null){
                 String userName = username.getText();
                 String password = GUILogin.this.password.getText();
-                empleados = login.login(userName,password);
+                empleados = gestionConsecionaria.login.login(userName,password);
                 }
                 //MENU ADMINISTRADOR
                 if (empleados.getTipo().equalsIgnoreCase("admin")) {
-                    new MenuAdmin(login, compradorController, automovilController, empleadosController, ventaController);
+                    new MenuAdmin(gestionConsecionaria);
                     dispose();
                 } else if (empleados.getTipo().equalsIgnoreCase("administrador")) {
-                    new MenuAdmin(login, compradorController, automovilController, empleadosController, ventaController);
+                    new MenuAdmin(gestionConsecionaria);
                     dispose();
                 }
                     //MENU VENDEDOR

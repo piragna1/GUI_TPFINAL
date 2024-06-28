@@ -1,5 +1,6 @@
 package com.framallo90.GUI;
 
+import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Empleados.Controller.EmpleadosController;
@@ -20,10 +21,7 @@ public class MenuAdmin extends JFrame{
     private JButton btnVolver;
     private JButton btnClientes;
 
-    public MenuAdmin(Login login, CompradorController compradorController,
-                     AutomovilController automovilController,
-                     EmpleadosController empleadosController,
-                     VentaController ventaController){
+    public MenuAdmin(GestionConsecionaria gestionConsecionaria){
         setContentPane(menuAdmin);
         setTitle("Menu administrador");
         setSize(450,450);
@@ -33,7 +31,7 @@ public class MenuAdmin extends JFrame{
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Pantalla(login, compradorController,automovilController,empleadosController,ventaController);
+                new Pantalla(gestionConsecionaria);
                 dispose();
             }
         });
@@ -42,7 +40,7 @@ public class MenuAdmin extends JFrame{
         btnClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Clientes(login,compradorController,automovilController,empleadosController,ventaController);
+                new Clientes(gestionConsecionaria);
                 dispose();
             }
         });

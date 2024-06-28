@@ -1,5 +1,6 @@
 package com.framallo90.GUI.CLIENTES;
 
+import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Comprador.Model.Entity.Comprador;
@@ -43,10 +44,7 @@ public class BuscarCliente extends JFrame {
      * @see Component#setVisible
      * @see JComponent#getDefaultLocale
      */
-    public BuscarCliente(Login login, CompradorController compradorController,
-                         AutomovilController automovilController,
-                         EmpleadosController empleadosController,
-                         VentaController ventaController, ClienteEncontrado callback)  {
+    public BuscarCliente(GestionConsecionaria gestionConsecionaria)  {
         setContentPane(buscarCliente);
         setTitle("Buscar cliente");
         setSize(450,450);
@@ -61,7 +59,7 @@ public class BuscarCliente extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Clientes(login, compradorController,automovilController,empleadosController,ventaController);
+                new Clientes(gestionConsecionaria);
                 dispose();
             }
         });
@@ -77,7 +75,7 @@ public class BuscarCliente extends JFrame {
                     // Valid DNI, perform search based on your logic (replace with your search implementation)
                     Comprador comprador = null;
                     try {
-                        comprador = CompradorController.find(dniValue);
+                        comprador = CompradorController.find();
                     } catch (InvalidIdNotFound ex) {
                         Consola.soutAlertString(ex.getMessage());
                     }

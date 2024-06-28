@@ -31,7 +31,7 @@ public class CompradorController {
                     verHisorial();
                     Comprador comprador;
                     try {
-                        comprador = compradorRepository.find(Consola.ingresarXInteger("el ID del Comprador"));
+                        comprador = CompradorController.find();
                         System.out.println("1. Nombre");
                         System.out.println("2. Apellido");
                         System.out.println("3. DNI");
@@ -97,7 +97,7 @@ public class CompradorController {
     public void add() {
         String nombre = Consola.ingresarXString("el Nombre");
         String apellido = Consola.ingresarXString("el Apellido");
-        Integer dni = Consola.ingresarXInteger("el DNI");
+        String dni = Consola.ingresarXStringSimple("el DNI");
         String email = compradorView.ingresoEmail();
         Comprador comprador = new Comprador(nombre, apellido, dni, email);
         compradorRepository.add(comprador);
@@ -118,9 +118,8 @@ public class CompradorController {
             Consola.soutAlertString(e.getMessage());
         }
     }
-    public static Comprador find(String id) throws InvalidIdNotFound{
+    public static Comprador find() throws InvalidIdNotFound{
         compradorView.muestroCompradores(compradorRepository.getsetCompradores());
-
         return compradorRepository.find(Consola.ingresarXInteger("id del comprador"));
     }
     public void verHisorial() {

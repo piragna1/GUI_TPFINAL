@@ -1,4 +1,5 @@
 package com.framallo90.Venta.Controller;
+import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Automovil.Model.Entity.Automovil;
 import com.framallo90.Comprador.Controller.CompradorController;
@@ -29,31 +30,25 @@ import java.time.LocalDate;
  * @version 1.0
  */
 public class VentaController {
-    private final EmpleadosController empleadosController;
     private final CompradorController compradorController;
+    private final EmpleadosController empleadosController;
     private final AutomovilController automovilController;
-    private final MetodoController metodoController;
     private final VentaView ventaView;
     private final VentaRepository ventaRepository;
+    public static MetodoController metodoController;
     /**
      * Constructor que inicializa el controlador de ventas con los controladores y repositorios necesarios.
      *
-     * @param empleadosController Controlador de empleados.
-     * @param compradorController Controlador de compradores.
-     * @param automovilController Controlador de automóviles.
-     * @param metodoController    Controlador de métodos de pago.
      * @param ventaView           Vista de ventas.
      * @param ventaRepository     Repositorio de ventas.
      */
-    public VentaController(EmpleadosController empleadosController, CompradorController compradorController,
-                           AutomovilController automovilController, MetodoController metodoController,
-                           VentaView ventaView, VentaRepository ventaRepository) {
-        this.empleadosController = empleadosController;
+    public VentaController(CompradorController compradorController, EmpleadosController empleadosController, AutomovilController automovilController, VentaView ventaView, VentaRepository ventaRepository, MetodoController metodoController) {
         this.compradorController = compradorController;
+        this.empleadosController = empleadosController;
         this.automovilController = automovilController;
-        this.metodoController = metodoController;
         this.ventaView = ventaView;
         this.ventaRepository = ventaRepository;
+        VentaController.metodoController = metodoController;
     }
     /**
      * Agrega una nueva venta al sistema. Permite seleccionar un empleado vendedor, un comprador,
@@ -63,29 +58,29 @@ public class VentaController {
      */
     public void add() throws InvalidIdNotFound {
         // Selección del empleado vendedor
-        empleadosController.mostrarHistorial();
+        this.empleadosController.mostrarHistorial();
         Empleados empleados = this.empleadosController.find(Consola.ingresarXInteger("el ID del empleado Vendedor"));
         if (empleados == null) {
             throw new InvalidIdNotFound("El Empleado NO se encuentra registrado.");
         }
         // Selección del comprador
         this.compradorController.verHisorial();
-        Comprador comprador = this.compradorController.find(Consola.ingresarXInteger("el ID del Comprador actual"));
+        Comprador comprador = this.compradorController.find();
         if (comprador == null) {
             throw new InvalidIdNotFound("El Comprador NO se encuentra registrado.");
         }
 
         // Selección del automóvil en stock
-        automovilController.mostrarAutomovilesEnStock();
+        this.automovilController.mostrarAutomovilesEnStock();
         Integer id = Consola.ingresarXInteger("el ID del Automovil en Stock");
-        Automovil automovil = this.automovilController.find(id);
+        Automovil automovil =this.automovilController.find(id);
         if (automovil == null) {
             throw new InvalidIdNotFound("El Automovil NO se encuentra registrado.");
         }
 
         // Generación del método de pago
         LocalDate fecha = LocalDate.now();
-        MetodoDePago metodoDePago = this.metodoController.cargarMDP(automovil.getPrecio());
+        MetodoDePago metodoDePago = VentaController.metodoController.cargarMDP(automovil.getPrecio());
         Venta venta = this.ventaView.generarVenta(empleados,comprador,automovil,fecha,metodoDePago);
         this.ventaRepository.add(venta);
         this.automovilController.borrarAutomovilEnStockPorId(id);
@@ -105,13 +100,18 @@ public class VentaController {
         }
     }
 
+    public Venta find() throws InvalidIdNotFound {
+        ventaView.mostrarHistorial(ventaRepository.getMap());
+        return ventaRepository.find(Consola.ingresarXInteger("id de la venta"));
+    }
+
     /**
      * Elimina una venta existente seleccionada por su ID.
      *
      * @throws InvalidIdNotFound Si no se encuentra la venta correspondiente.
      */
     public void remover() throws InvalidIdNotFound {
-        Venta buscar = this.ventaRepository.find(Consola.ingresarXInteger("el ID de la Venta"));
+        Venta buscar = this.find();
         if (buscar == null) {
             throw new InvalidIdNotFound("La Venta NO se encuentra registrada.");
         }
@@ -151,17 +151,17 @@ public class VentaController {
         }
     }
     public void cambiarEmpleadoVenta(Venta venta){
-        empleadosController.mostrarHistorial();
+        this.empleadosController.mostrarHistorial();
         Integer id = Consola.ingresarXInteger("id del vendedor");
 
         try{
-            Empleados nuevo = empleadosController.find(id);
+            Empleados nuevo = this.empleadosController.find(id);
             Empleados saco = venta.getEmpleados();
             saco.disminucionAutosVendidos();
             nuevo.aumentoAutosVendidos();
             venta.setEmpleados(nuevo);
-            empleadosController.update(saco.getId(),saco);
-            empleadosController.update(nuevo.getId(),nuevo);
+            this.empleadosController.update(saco.getId(),saco);
+            this.empleadosController.update(nuevo.getId(),nuevo);
             this.ventaRepository.update(venta.getIdVenta(),venta);
         } catch (InvalidIdNotFound e) {
             Consola.soutAlertString(e.getMessage());
@@ -170,11 +170,11 @@ public class VentaController {
 
     }
     public void cambiarCompradorVenta(Venta venta){
-        compradorController.verHisorial();
+        this.compradorController.verHisorial();
         Integer id = Consola.ingresarXInteger("id del vendedor");
 
         try{
-            Comprador nuevo = compradorController.find(id);
+            Comprador nuevo = CompradorController.find();
             venta.setComprador(nuevo);
             this.ventaRepository.update(venta.getIdVenta(),venta);
         } catch (InvalidIdNotFound e) {
