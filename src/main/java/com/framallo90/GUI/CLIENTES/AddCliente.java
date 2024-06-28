@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import static com.framallo90.UsuarioAbstracta.view.UsuarioView.isValidEmail;
 import static jdk.internal.net.http.common.Utils.isValidName;
 
@@ -56,17 +55,10 @@ public class AddCliente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombre1 = null,apellido1=null,email1=null;
-                Integer dni1;
                 nombre1 = nombre.getText();
                 apellido1 = apellido.getText();
                 String dniText = dni.getText();
                 email1 = email.getText();
-                try {
-                    dni1 = Integer.parseInt(dniText);
-                } catch (NumberFormatException exception) {
-                    JOptionPane.showMessageDialog(null, "DNI inválido. Debe ingresar solo números.");
-                    return; // Prevent submission on invalid format
-                }
 
                 // Validate all fields
                 if (!isValidName(nombre1)) {
@@ -77,7 +69,7 @@ public class AddCliente extends JFrame {
                     JOptionPane.showMessageDialog(null, "Apellido inválido.");
                     return; // Prevent submission
                 }
-                if (!UsuarioView.isValidDni(dni1)) {
+                if (!UsuarioView.isValidDni(dniText)) {
                     JOptionPane.showMessageDialog(null, "DNI inválido.");
                     return; // Prevent submission
                 }

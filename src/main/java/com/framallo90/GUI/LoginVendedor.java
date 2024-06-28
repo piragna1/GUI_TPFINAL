@@ -1,13 +1,14 @@
 package com.framallo90.GUI;
-
+import com.framallo90.Automovil.Controller.AutomovilController;
+import com.framallo90.Comprador.Controller.CompradorController;
+import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.Empleados.Model.Entity.Empleados;
 import com.framallo90.Login.Login;
+import com.framallo90.Venta.Controller.VentaController;
 import com.framallo90.consola.Consola;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 public class LoginVendedor extends JFrame{
     private JPanel loginVendedor;
     private JPanel panel;
@@ -23,7 +24,10 @@ public class LoginVendedor extends JFrame{
     Empleados empleados = null;
 
     // MainFrame
-    public LoginVendedor (Login login) {
+    public LoginVendedor (Login login, CompradorController compradorController,
+                          AutomovilController automovilController,
+                          EmpleadosController empleadosController,
+                          VentaController ventaController) {
         setTitle("Vendedor");
         setContentPane(loginVendedor);
         setSize(500,500);
@@ -32,7 +36,7 @@ public class LoginVendedor extends JFrame{
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Pantalla pantalla = new Pantalla(login);
+                Pantalla pantalla = new Pantalla(login,compradorController,automovilController,empleadosController,ventaController);
                 dispose();
             }
         });
@@ -41,10 +45,10 @@ public class LoginVendedor extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String user = userVendedor.getText();
                 String contra = String.valueOf(contraVendedor.getPassword());
-                try {
-                    empleados = login.login(user,contra);
-                } catch (InicioSesionException ex) {
-                    Consola.soutString(ex.getMessage());
+                empleados = login.login(user,contra);
+                if (empleados == null) {
+                    new Pantalla(login,compradorController,automovilController,empleadosController,ventaController);
+                    dispose();
                 }
                 if (empleados.getTipo().equalsIgnoreCase("Vendedor")){
                     System.out.println("paso algo random bro");

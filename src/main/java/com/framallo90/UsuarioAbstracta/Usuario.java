@@ -19,7 +19,7 @@ import java.util.Objects;
 public abstract class Usuario {
     private String nombre;
     private String apellido;
-    private Integer dni;
+    private String dni;
 
     /**
      * Constructor que inicializa un usuario con nombre, apellido y número de documento.
@@ -28,7 +28,7 @@ public abstract class Usuario {
      * @param apellido El apellido del usuario.
      * @param dni      El número de documento del usuario.
      */
-    public Usuario(String nombre, String apellido, Integer dni) {
+    public Usuario(String nombre, String apellido, String dni) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -89,7 +89,7 @@ public abstract class Usuario {
      *
      * @return El número de documento del usuario.
      */
-    public Integer getDni() {
+    public String getDni() {
         return dni;
     }
 
@@ -98,7 +98,7 @@ public abstract class Usuario {
      *
      * @param dni El nuevo número de documento del usuario.
      */
-    public void setDni(Integer dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 

@@ -5,9 +5,11 @@ import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Comprador.Model.Entity.Comprador;
 import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.Empleados.Model.Entity.Empleados;
+import com.framallo90.Excepciones.InvalidIdNotFound;
 import com.framallo90.Login.Login;
 import com.framallo90.UsuarioAbstracta.view.UsuarioView;
 import com.framallo90.Venta.Controller.VentaController;
+import com.framallo90.consola.Consola;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,10 +73,14 @@ public class BuscarCliente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dniValue = dniInput.getText();
-                dni = Integer.parseInt(dniValue);
-                if (UsuarioView.isValidDni(dni)) {
+                if (UsuarioView.isValidDni(dniValue)) {
                     // Valid DNI, perform search based on your logic (replace with your search implementation)
-                    Comprador comprador = CompradorController.find(dni);
+                    Comprador comprador = null;
+                    try {
+                        comprador = CompradorController.find(dniValue);
+                    } catch (InvalidIdNotFound ex) {
+                        Consola.soutAlertString(ex.getMessage());
+                    }
                     if (comprador != null) {
                         nombreField.setText(comprador.getNombre());
                         apellidoField.setText(comprador.getApellido());

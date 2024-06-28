@@ -5,7 +5,6 @@ import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.Empleados.Model.Entity.Empleados;
 import com.framallo90.Empleados.Model.Repository.EmpleadosRepository;
 import com.framallo90.Login.Login;
-import com.framallo90.MetodoDePago.Controller.MetodoController;
 import com.framallo90.Venta.Controller.VentaController;
 import com.framallo90.consola.Consola;
 /**
@@ -13,32 +12,25 @@ import com.framallo90.consola.Consola;
  * Permite la gestión de compradores, empleados, automóviles, ventas y métodos de pago.
  */
 public class GestionConsecionaria {
-    static{
-        EmpleadosRepository empleadosRepository = new EmpleadosRepository();
-        if (!empleadosRepository.adminCreated())
-            empleadosRepository.add(new Empleados("A","A",99999999,0,"A","A","administrador"));
-    }
-    private CompradorController compradorController;
-    private EmpleadosController empleadosController;
-    private MetodoController metodoController;
-    private AutomovilController automovilController;
-    private VentaController ventaController;
+    private static CompradorController compradorController;
+    private static EmpleadosController empleadosController;
+    private static AutomovilController automovilController;
+    private static VentaController ventaController;
+    private static Login login;
     /**
      * Constructor de la clase GestionConsecionaria.
      * @param compradorController Controlador para la gestión de compradores.
      * @param empleadosController Controlador para la gestión de empleados.
-     * @param metodoController Controlador para la gestión de métodos de pago.
      * @param automovilController Controlador para la gestión de automóviles.
      * @param ventaController Controlador para la gestión de ventas.
      */
     public GestionConsecionaria(CompradorController compradorController, EmpleadosController empleadosController,
-                                MetodoController metodoController, AutomovilController automovilController,
-                                VentaController ventaController) {
-        this.compradorController = compradorController;
-        this.empleadosController = empleadosController;
-        this.metodoController = metodoController;
-        this.automovilController = automovilController;
-        this.ventaController = ventaController;
+                                AutomovilController automovilController, VentaController ventaController, Login login) {
+        GestionConsecionaria.compradorController = compradorController;
+        GestionConsecionaria.empleadosController = empleadosController;
+        GestionConsecionaria.automovilController = automovilController;
+        GestionConsecionaria.ventaController = ventaController;
+        GestionConsecionaria.login = login;
     }
 
     /**

@@ -37,4 +37,12 @@ public class UsuarioView {
         Matcher matcher = pattern.matcher(emailAddress);
         return matcher.matches();
     }
+
+
+    public static boolean isValidDni(String dni){
+        if (dni.length()!=8) return false;
+        for (Character c : dni.toCharArray())
+            if (!Character.isDigit(c)) return false;
+        return true;
+    }
 }

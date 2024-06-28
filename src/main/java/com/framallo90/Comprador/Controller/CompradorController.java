@@ -3,13 +3,14 @@ import com.framallo90.Comprador.Model.Entity.Comprador;
 import com.framallo90.Comprador.Model.Repository.CompradorRepository;
 import com.framallo90.Comprador.View.CompradorView;
 import com.framallo90.Excepciones.InvalidIdNotFound;
+import com.framallo90.UsuarioAbstracta.view.UsuarioView;
 import com.framallo90.consola.Consola;
 public class CompradorController {
-    CompradorView compradorView;
-    CompradorRepository compradorRepository;
+    private static CompradorView compradorView;
+    private static CompradorRepository compradorRepository;
     public CompradorController(CompradorView compradorView, CompradorRepository compradorRepository) {
-        this.compradorView = compradorView;
-        this.compradorRepository = compradorRepository;
+        CompradorController.compradorView = compradorView;
+        CompradorController.compradorRepository = compradorRepository;
     }
     public void compradorMenu(){
         int opt;
@@ -42,19 +43,23 @@ public class CompradorController {
                         switch (opt) {
                             case 1:
                                 comprador.setNombre(Consola.ingresarXString("el Nuevo Nombre"));
-                                this.compradorRepository.update(comprador.getId(),comprador);
+                                compradorRepository.update(comprador.getId(),comprador);
                                 break;
                             case 2:
                                 comprador.setApellido(Consola.ingresarXString("el Nuevo Apellido"));
-                                this.compradorRepository.update(comprador.getId(),comprador);
+                                compradorRepository.update(comprador.getId(),comprador);
                                 break;
                             case 3:
-                                comprador.setDni(Consola.ingresarXInteger("el Nuevo DNI"));
-                                this.compradorRepository.update(comprador.getId(),comprador);
+                                String dni = Consola.ingresarXStringSimple("el Nuevo DNI");
+                                if (UsuarioView.isValidDni(dni)) {
+                                    comprador.setDni(dni);
+                                    compradorRepository.update(comprador.getId(),comprador);
+                                }
+                                else Consola.soutAlertString("El dni ingresado no es válido.");
                                 break;
                             case 4:
                                 comprador.setEmail(compradorView.ingresoEmail());
-                                this.compradorRepository.update(comprador.getId(),comprador);
+                                compradorRepository.update(comprador.getId(),comprador);
                                 break;
                             case 0:
                                 break;
@@ -62,7 +67,7 @@ public class CompradorController {
                                 Consola.soutAlertString("Opción Inválida. Reintentar!.");
                                 break;
                         }
-                        this.compradorRepository.update(comprador.getId(),comprador);
+                        compradorRepository.update(comprador.getId(),comprador);
                     } catch (InvalidIdNotFound e) {
                         Consola.soutAlertString(e.getMessage());
                     }
@@ -95,7 +100,7 @@ public class CompradorController {
         Integer dni = Consola.ingresarXInteger("el DNI");
         String email = compradorView.ingresoEmail();
         Comprador comprador = new Comprador(nombre, apellido, dni, email);
-        this.compradorRepository.add(comprador);
+        compradorRepository.add(comprador);
     }
     public void remove() {
         try{
@@ -113,13 +118,12 @@ public class CompradorController {
             Consola.soutAlertString(e.getMessage());
         }
     }
-    public Comprador find(Integer id) throws InvalidIdNotFound{
-        this.compradorView.muestroCompradores(this.compradorRepository.getsetCompradores());
-        Comprador devol = this.compradorRepository.find(Consola.ingresarXInteger("id del comprador"));
+    public static Comprador find(String id) throws InvalidIdNotFound{
+        compradorView.muestroCompradores(compradorRepository.getsetCompradores());
 
-        return devol;
+        return compradorRepository.find(Consola.ingresarXInteger("id del comprador"));
     }
     public void verHisorial() {
-        compradorView.muestroCompradores(this.compradorRepository.getsetCompradores());
+        compradorView.muestroCompradores(compradorRepository.getsetCompradores());
     }
 }

@@ -1,5 +1,4 @@
 package com.framallo90;
-
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Automovil.Model.Repository.AutomovilRepository;
@@ -11,6 +10,7 @@ import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.Empleados.Model.Entity.Empleados;
 import com.framallo90.Empleados.Model.Repository.EmpleadosRepository;
 import com.framallo90.Empleados.View.EmpleadosView;
+import com.framallo90.Login.Login;
 import com.framallo90.MetodoDePago.Controller.MetodoController;
 import com.framallo90.MetodoDePago.View.MetodoView;
 import com.framallo90.Venta.Controller.VentaController;
@@ -27,12 +27,18 @@ import com.framallo90.Venta.View.VentaView;
  */
 public class Main {
 
+    static{
+        EmpleadosRepository empleadosRepository = new EmpleadosRepository();
+        if (!empleadosRepository.adminCreated())
+            empleadosRepository.add(new Empleados("A","A",99999999,0,"A","A","administrador"));
+    }
     /**
      * Método principal de la aplicación que inicializa y configura todos los componentes.
      *
      * @param args Los argumentos de línea de comandos (no se utilizan en esta implementación).
      */
     public static void main(String[] args) {
+
         // Creación de instancias de las vistas, repositorios y controladores necesarios
         CompradorView compradorView = new CompradorView();
         CompradorRepository compradorRepository = new CompradorRepository();
@@ -54,14 +60,14 @@ public class Main {
         VentaController ventaController = new VentaController(empleadosController, compradorController,
                 automovilController, metodoController, ventaView, ventaRepository);
 
+        Login login = new Login();
+
         // Creación de la instancia de la clase principal de gestión de concesionaria
         GestionConsecionaria gestionConsecionaria = new GestionConsecionaria(compradorController, empleadosController,
-                metodoController, automovilController, ventaController);
+                automovilController, ventaController, login);
 
         // Inicia la aplicación llamando al método iniciar de GestionConsecionaria
         gestionConsecionaria.iniciar();
     }
 }
-
-
 //Vamos Julian Alvarez.
