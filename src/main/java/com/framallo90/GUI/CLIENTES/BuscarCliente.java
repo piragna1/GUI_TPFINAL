@@ -1,21 +1,21 @@
 package com.framallo90.GUI.CLIENTES;
 
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
-import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Comprador.Model.Entity.Comprador;
-import com.framallo90.Empleados.Controller.EmpleadosController;
-import com.framallo90.Empleados.Model.Entity.Empleados;
 import com.framallo90.Excepciones.InvalidIdNotFound;
-import com.framallo90.Login.Login;
 import com.framallo90.UsuarioAbstracta.view.UsuarioView;
-import com.framallo90.Venta.Controller.VentaController;
 import com.framallo90.consola.Consola;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class BuscarCliente extends JFrame {
     private Comprador selectedComprador;
@@ -30,6 +30,9 @@ public class BuscarCliente extends JFrame {
     private JButton btnAceptar;
     private JButton btnCancelar;
     private JTextField nombreField;
+    private JList listaClientes;
+    private JScrollPane scrollPane;
+    private final DefaultListModel<Comprador> listaClientesModel = new DefaultListModel<Comprador>();
 
     /**
      * Constructs a new frame that is initially invisible.
@@ -50,6 +53,8 @@ public class BuscarCliente extends JFrame {
         setSize(450,450);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+
+        listaClientes.setModel(listaClientesModel);
         //VOLVER
         btnCancelar.addActionListener(new ActionListener() {
             /**
@@ -66,32 +71,49 @@ public class BuscarCliente extends JFrame {
 
         //BUSCAR
         btnBuscar.addActionListener(new ActionListener() {
-            Integer dni;
             String dniValue=null;
             @Override
             public void actionPerformed(ActionEvent e) {
-                dniValue = dniInput.getText();
-                if (UsuarioView.isValidDni(dniValue)) {
-                    // Valid DNI, perform search based on your logic (replace with your search implementation)
-                    Comprador comprador = null;
-                    try {
-                        comprador = CompradorController.find();
-                    } catch (InvalidIdNotFound ex) {
-                        Consola.soutAlertString(ex.getMessage());
-                    }
-                    if (comprador != null) {
-                        nombreField.setText(comprador.getNombre());
-                        apellidoField.setText(comprador.getApellido());
-                        emailField.setText(comprador.getEmail());
-                        dniField.setText(dniValue); // Pre-fill DNI field (optional)
-                        btnAceptar.setEnabled(true); // Enable "Aceptar" button
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
-                        // Reset fields and disable button (optional)
-                    }
+                dniValue = dniInput.getText().trim();
+                // Valid DNI, perform search based on your logic (replace with your search implementation)
+                List<Comprador> compradores = null;
+                try {
+                    compradores = gestionConsecionaria.compradorController.findXFiltro(dniValue);
+                } catch (InvalidIdNotFound ex) {
+                    Consola.soutAlertString(ex.getMessage());
+                }
+                if (compradores != null) {
+                    listaClientesModel.clear();
+                    for (Comprador comprador:compradores)
+                        listaClientesModel.addElement(comprador);
                 } else {
-                    JOptionPane.showMessageDialog(null, "DNI inválido.");
+                    JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
                     // Reset fields and disable button (optional)
+                }
+            }
+        });
+
+        // JList selection listener
+        listaClientes.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) { // Avoid updates during selection change
+                    selectedComprador = (Comprador) listaClientes.getSelectedValue();
+                    if (selectedComprador != null) {
+                        // Fill form fields with selected Comprador data
+                        nombreField.setText(selectedComprador.getNombre());
+                        apellidoField.setText(selectedComprador.getApellido());
+                        dniField.setText(selectedComprador.getDni().toString()); // Assuming DNI is a String
+                        emailField.setText(selectedComprador.getEmail());
+                        btnAceptar.setEnabled(true);
+                    } else {
+                        // Clear form fields and disable button if no selection
+                        nombreField.setText("");
+                        apellidoField.setText("");
+                        dniField.setText("");
+                        emailField.setText("");
+                        btnAceptar.setEnabled(false);
+                    }
                 }
             }
         });
@@ -112,4 +134,5 @@ public class BuscarCliente extends JFrame {
     public interface ClienteEncontrado {
         void clienteEncontrado(Comprador comprador);
     }
+
 }
