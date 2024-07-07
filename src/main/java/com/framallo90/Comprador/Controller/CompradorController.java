@@ -5,6 +5,9 @@ import com.framallo90.Comprador.View.CompradorView;
 import com.framallo90.Excepciones.InvalidIdNotFound;
 import com.framallo90.UsuarioAbstracta.view.UsuarioView;
 import com.framallo90.consola.Consola;
+
+import java.util.List;
+
 public class CompradorController {
     private static CompradorView compradorView;
     private static CompradorRepository compradorRepository;
@@ -31,7 +34,8 @@ public class CompradorController {
                     verHisorial();
                     Comprador comprador;
                     try {
-                        comprador = CompradorController.find();
+                        Integer dniComprador = Integer.parseInt(Consola.ingresarXStringSimple("dni del comprador"));
+                        comprador = CompradorController.find(dniComprador);
                         System.out.println("1. Nombre");
                         System.out.println("2. Apellido");
                         System.out.println("3. DNI");
@@ -118,9 +122,13 @@ public class CompradorController {
             Consola.soutAlertString(e.getMessage());
         }
     }
-    public static Comprador find() throws InvalidIdNotFound{
-        compradorView.muestroCompradores(compradorRepository.getsetCompradores());
-        return compradorRepository.find(Consola.ingresarXInteger("id del comprador"));
+    public static Comprador find(Integer dni) throws InvalidIdNotFound{
+        //compradorView.muestroCompradores(compradorRepository.getsetCompradores());
+        return compradorRepository.find(dni);
+    }
+    public List<Comprador> findXFiltro(String dni) throws InvalidIdNotFound{
+        //compradorView.muestroCompradores(compradorRepository.getsetCompradores());
+        return compradorRepository.findXFiltro(dni);
     }
     public void verHisorial() {
         compradorView.muestroCompradores(compradorRepository.getsetCompradores());
