@@ -65,7 +65,8 @@ public class VentaController {
         }
         // Selección del comprador
         this.compradorController.verHisorial();
-        Comprador comprador = this.compradorController.find();
+        Integer dniComprador = Integer.parseInt(Consola.ingresarXStringSimple("dni del comprador"));
+        Comprador comprador = this.compradorController.find(dniComprador);
         if (comprador == null) {
             throw new InvalidIdNotFound("El Comprador NO se encuentra registrado.");
         }
@@ -174,7 +175,8 @@ public class VentaController {
         Integer id = Consola.ingresarXInteger("id del vendedor");
 
         try{
-            Comprador nuevo = CompradorController.find();
+            Integer dniComprador = Integer.parseInt(Consola.ingresarXStringSimple("dni del comprador"));
+            Comprador nuevo = CompradorController.find(dniComprador);
             venta.setComprador(nuevo);
             this.ventaRepository.update(venta.getIdVenta(),venta);
         } catch (InvalidIdNotFound e) {
