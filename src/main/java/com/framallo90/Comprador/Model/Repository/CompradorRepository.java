@@ -11,8 +11,10 @@ import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * La clase {@code CompradorRepository} implementa la interfaz {@code IRepository} y proporciona métodos
@@ -129,14 +131,28 @@ public class CompradorRepository implements IRepository<Comprador, Integer> {
             throw new InvalidIdNotFound("No se han encontrado Compradores con ese ID");
         }
     }
-    private boolean compruebaDni(Integer dni){
-        for (Comprador comprador: this.setCompradores){
-            if(comprador.getDni().equals(dni)){
-                return true;
-            }
+    public List<Comprador> findXFiltro(String dniFilter) throws InvalidIdNotFound {
+        // Check if DNI filter is provided
+        if (dniFilter == null || dniFilter.isEmpty()) {
+            throw new InvalidIdNotFound("No se ha especificado un filtro de DNI.");
         }
-        return false;
+
+        // Get the length of the DNI filter
+        int filterLength = dniFilter.length();
+
+        // Filter Compradores based on the first n characters of their DNI
+        List<Comprador> filteredCompradores = this.setCompradores.stream()
+                .filter(comprador -> comprador.getDni().substring(0, filterLength).equals(dniFilter))
+                .collect(Collectors.toList());
+
+        // Check if any Compradores were found
+        if (filteredCompradores.isEmpty()) {
+            throw new InvalidIdNotFound("No se han encontrado Compradores con el DNI especificado.");
+        }
+
+        return filteredCompradores;
     }
+
     /**
      * Obtiene la colección de todos los compradores.
      *
