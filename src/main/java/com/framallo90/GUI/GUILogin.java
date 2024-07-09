@@ -22,8 +22,9 @@ public class GUILogin extends JFrame{
     private JButton btnLogin;
     private JLabel textPassword;
     private JButton btnVolver;
+    private Empleados empleados = null;
     public GUILogin(GestionConsecionaria gestionConsecionaria) {
-        setTitle("Administrador");
+        setTitle("Ingreso");
         setSize(500,500);
         setContentPane(this.login);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -46,17 +47,17 @@ public class GUILogin extends JFrame{
                 String password = GUILogin.this.password.getText();
                 empleados = gestionConsecionaria.login.login(userName,password);
                 }
+                Login.empleadoIngresado = empleados;
                 //MENU ADMINISTRADOR
                 if (empleados.getTipo().equalsIgnoreCase("admin")) {
                     new MenuAdmin(gestionConsecionaria);
-                    dispose();
                 } else if (empleados.getTipo().equalsIgnoreCase("administrador")) {
                     new MenuAdmin(gestionConsecionaria);
-                    dispose();
                 }
                     //MENU VENDEDOR
                 else {
                 }
+                dispose();
             }
         });
     }

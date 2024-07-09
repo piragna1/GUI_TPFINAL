@@ -1,54 +1,35 @@
 package com.framallo90.GUI;
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
-import com.framallo90.Automovil.Controller.AutomovilController;
-import com.framallo90.Comprador.Controller.CompradorController;
-import com.framallo90.Empleados.Controller.EmpleadosController;
-import com.framallo90.Login.Login;
-import com.framallo90.Venta.Controller.VentaController;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 public class Pantalla extends JFrame {
     private JPanel pantallaIncio;
     private JPanel panel;
     private JButton btnAdmin;
-    private JButton btnVendedor;
+    private JButton btnIngreso;
     private JLabel tituloInicio;
-    private JLabel introInicio;
     private JButton btnSalir;
-
     public Pantalla (GestionConsecionaria gestionConsecionaria) {
         setContentPane(pantallaIncio);
         setTitle("Proyecto Final 3");
         setSize(500,500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        //IR A MENU ADMIN
+        //INGRESO
         btnAdmin.addActionListener(new ActionListener() {
-            //SET "invisible" menú principal
             @Override
             public void actionPerformed(ActionEvent e) {
                 new GUILogin(gestionConsecionaria);
-                setVisible(false);
+                dispose();
             }
         });
-        //IR A MENU VENDEDOR
-        btnVendedor.addActionListener(new ActionListener() {
-            //SET "invisible" menú principal
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
+        //CERRAR PROGRAMA
         btnSalir.addActionListener(new ActionListener() {
-            //CERRAR PROGRAMA
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
     }
-
 }
