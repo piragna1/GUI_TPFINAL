@@ -1,13 +1,9 @@
 package com.framallo90.GUI.CLIENTES;
 
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
-import com.framallo90.Automovil.Controller.AutomovilController;
-import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Comprador.Model.Entity.Comprador;
-import com.framallo90.Empleados.Controller.EmpleadosController;
+import com.framallo90.GUI.Interfaces.ClienteEncontrado;
 import com.framallo90.GUI.MenuAdmin;
-import com.framallo90.Login.Login;
-import com.framallo90.Venta.Controller.VentaController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +17,15 @@ public class Clientes extends JFrame{
     private JButton btnBuscar;
     private JButton btnVerHistorial;
     private JButton btnVolver;
+    private JTextField selectedDni;
+    private JTextField selectedApellido;
+    private JTextField selectedNombre;
     private Comprador selectedComprador; // To store the found Comprador
+    private ClienteEncontrado callback;
+
+    public void setCallback(ClienteEncontrado callback) {
+        this.callback = callback;
+    }
 
     public Clientes(GestionConsecionaria gestionConsecionaria){
         setContentPane(menuClientes);
@@ -29,9 +33,8 @@ public class Clientes extends JFrame{
         setSize(450,450);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+
         //VOLVER
-
-
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,52 +51,32 @@ public class Clientes extends JFrame{
                 dispose();
             }
         });
+
         // MODIFICAR COMPRADOR (placeholder for future implementation)
-        btnModificar.setEnabled(false); // Initially disabled (assuming modification requires search)
         btnModificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selectedComprador != null) {
-                    // Modificar el comprador seleccionado (implement logic)
-                    // You can access selectedComprador attributes here (e.g., nombre, dni)
-                    System.out.println("Modificando comprador: " + selectedComprador.getNombre());
-                } else {
-                    JOptionPane.showMessageDialog(null, "Debe buscar un cliente antes de modificarlo.");
-                }
+                if (selectedComprador != null){
+                    new ModificarCliente();
+                    dispose();
+                } else setEnabled(false);// Initially disabled (assuming modification requires search)
             }
         });
         //ELIMINAR COMPRADOR
-        btnEliminar.setEnabled(false); // Initially disabled (assuming deletion requires search)
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedComprador != null) {
                     // Eliminar el comprador seleccionado (implement logic)
-                    // You can access selectedComprador attributes here (e.g., dni)
-                    System.out.println("Eliminando comprador: " + selectedComprador.getNombre());
                     // Reset selectedComprador after deletion
                     selectedComprador = null;
-                } else {
-                    JOptionPane.showMessageDialog(null, "Debe buscar un cliente antes de eliminarlo.");
-                }
+                } else setEnabled(false);
             }
         });
         //BUSCAR COMPRADOR
         btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implement ClienteEncontrado interface
-                BuscarCliente.ClienteEncontrado callback = new BuscarCliente.ClienteEncontrado() {
-                    @Override
-                    public void clienteEncontrado(Comprador comprador) {
-                        // Store the found comprador in the Clientes class
-                        selectedComprador = comprador;
-                        // Enable modification and deletion buttons if a comprador is found
-                        btnModificar.setEnabled(true);
-                        btnEliminar.setEnabled(true);
-                    }
-                };
-
                 // Create BuscarCliente instance with the callback
                 new BuscarCliente(gestionConsecionaria);
                 dispose();
@@ -103,7 +86,7 @@ public class Clientes extends JFrame{
 
 
         // Implement ClienteEncontrado interface
-        BuscarCliente.ClienteEncontrado callback = new BuscarCliente.ClienteEncontrado() {
+        ClienteEncontrado callback = new ClienteEncontrado() {
             @Override
             public void clienteEncontrado(Comprador comprador) {
                 // Store the found comprador in the Clientes class

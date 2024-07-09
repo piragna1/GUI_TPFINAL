@@ -79,8 +79,11 @@ public class AddCliente extends JFrame {
                 // All fields valid, proceed with form submission logic
                 // (e.g., save data, display success message)
                 JOptionPane.showMessageDialog(null, "Cliente creado correctamente.");
+                gestionConsecionaria.compradorController.add(nombre1,apellido1,dniText,email1);
             }
         });
+
+        //CANCELAR
         btnCancelar.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -93,6 +96,7 @@ public class AddCliente extends JFrame {
                 dispose();
             }
         });
+
         //VOLVER A MENU CLIENTES
         btnCancelar.addActionListener(new ActionListener() {
             /**
