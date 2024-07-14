@@ -2,7 +2,7 @@ package com.framallo90.GUI.CLIENTES;
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Comprador.Model.Entity.Comprador;
 import com.framallo90.Excepciones.InvalidIdNotFound;
-import com.framallo90.GUI.Interfaces.ClienteEncontrado;
+import com.framallo90.GUI.CLIENTES.auxiliar.ClienteEncontrado;
 import com.framallo90.consola.Consola;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 public class BuscarCliente extends JFrame {
     private Comprador selectedComprador;
-    public ClienteEncontrado callback;
     private JPanel buscarCliente;
     private JPanel panel;
     private JTextField dniInput;
@@ -40,7 +39,7 @@ public class BuscarCliente extends JFrame {
      * @see Component#setVisible
      * @see JComponent#getDefaultLocale
      */
-    public BuscarCliente(GestionConsecionaria gestionConsecionaria)  {
+    public BuscarCliente(GestionConsecionaria gestionConsecionaria, Comprador clienteEncontrado)  {
         setContentPane(buscarCliente);
         setTitle("Buscar cliente");
         setSize(450,450);
@@ -57,7 +56,7 @@ public class BuscarCliente extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Clientes(gestionConsecionaria);
+                new Clientes(gestionConsecionaria, new Comprador());
                 dispose();
             }
         });
@@ -92,6 +91,7 @@ public class BuscarCliente extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) { // Avoid updates during selection change
                     selectedComprador = (Comprador) listaClientes.getSelectedValue();
+                    ClienteEncontrado.comprador = selectedComprador;
                     if (selectedComprador != null) {
                         // Fill form fields with selected Comprador data
                         nombreField.setText(selectedComprador.getNombre());
@@ -110,13 +110,12 @@ public class BuscarCliente extends JFrame {
                 }
             }
         });
-
+        //SELECCIÓN
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedComprador != null) {
-                    // Cliente encontrado, call the callback with the selectedComprador
-                    callback.clienteEncontrado(selectedComprador);
+                    new Clientes(gestionConsecionaria,ClienteEncontrado.comprador);
                     dispose(); // Close the window
                 } else {
                     JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
@@ -124,5 +123,6 @@ public class BuscarCliente extends JFrame {
             }
         });
     }
+
 
 }

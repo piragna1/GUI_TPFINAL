@@ -106,9 +106,20 @@ public class CompradorController {
         Comprador comprador = new Comprador(nombre, apellido, dni, email);
         compradorRepository.add(comprador);
     }
+    public void add(String nombre, String apellido, String dni, String email) {
+        Comprador comprador = new Comprador(nombre, apellido, dni, email);
+        compradorRepository.add(comprador);
+    }
     public void remove() {
         try{
             compradorRepository.remove(Consola.ingresarXInteger("el ID del Comprador"));
+        } catch (InvalidIdNotFound e) {
+            Consola.soutAlertString(e.getMessage());
+        }
+    }
+    public void remove(Integer id) {
+        try{
+            compradorRepository.remove(id);
         } catch (InvalidIdNotFound e) {
             Consola.soutAlertString(e.getMessage());
         }
@@ -133,4 +144,10 @@ public class CompradorController {
     public void verHisorial() {
         compradorView.muestroCompradores(compradorRepository.getsetCompradores());
     }
+
+    ///AUX
+    public boolean existeDni(String dni){
+        return compradorRepository.existeDni(dni);
+    }
+    ///AUX
 }

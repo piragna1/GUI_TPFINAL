@@ -4,6 +4,7 @@ import com.framallo90.Empleados.Model.Repository.EmpleadosRepository;
 import com.framallo90.consola.Consola;
 import java.util.List;
 public class Login {
+    public static Empleados empleadoIngresado = null;
     private EmpleadosRepository empleadosRepository;
     // Constructor que inicializa el repositorio de empleados.
     public Login() {

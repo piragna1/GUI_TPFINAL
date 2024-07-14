@@ -2,7 +2,7 @@ package com.framallo90.GUI.CLIENTES;
 
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Comprador.Model.Entity.Comprador;
-import com.framallo90.GUI.Interfaces.ClienteEncontrado;
+import com.framallo90.GUI.CLIENTES.auxiliar.ClienteEncontrado;
 import com.framallo90.GUI.MenuAdmin;
 
 import javax.swing.*;
@@ -20,25 +20,26 @@ public class Clientes extends JFrame{
     private JTextField selectedDni;
     private JTextField selectedApellido;
     private JTextField selectedNombre;
-    private Comprador selectedComprador; // To store the found Comprador
-    private ClienteEncontrado callback;
 
-    public void setCallback(ClienteEncontrado callback) {
-        this.callback = callback;
-    }
-
-    public Clientes(GestionConsecionaria gestionConsecionaria){
+    public Clientes(GestionConsecionaria gestionConsecionaria, Comprador comprador){
         setContentPane(menuClientes);
         setTitle("Menu clientes");
         setSize(450,450);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        if (comprador != null){
+            selectedDni.setText(comprador.getDni());
+            selectedNombre.setText(comprador.getNombre());
+            selectedApellido.setText(comprador.getApellido());
+        }
+
 
         //VOLVER
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new MenuAdmin(gestionConsecionaria);
+                ClienteEncontrado.comprador = null;
                 dispose();
             }
         });
@@ -56,21 +57,26 @@ public class Clientes extends JFrame{
         btnModificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selectedComprador != null){
-                    new ModificarCliente();
+                if (ClienteEncontrado.comprador != null){
+                    new ModificarCliente(gestionConsecionaria,ClienteEncontrado.comprador);
                     dispose();
-                } else setEnabled(false);// Initially disabled (assuming modification requires search)
+                } else JOptionPane.showMessageDialog(null, "Aún no hay un cliente seleccionado.");
             }
         });
         //ELIMINAR COMPRADOR
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selectedComprador != null) {
+                if (ClienteEncontrado.comprador != null) {
                     // Eliminar el comprador seleccionado (implement logic)
+                    gestionConsecionaria.compradorController.remove(ClienteEncontrado.comprador.getId());
                     // Reset selectedComprador after deletion
-                    selectedComprador = null;
-                } else setEnabled(false);
+                    ClienteEncontrado.comprador = null;
+                    selectedDni.setText("");
+                    selectedNombre.setText("");
+                    selectedApellido.setText("");
+                    JOptionPane.showMessageDialog(null,"El comprador ha sido removido correctamente.");
+                } else JOptionPane.showMessageDialog(null, "Aún no hay un cliente seleccionado.");
             }
         });
         //BUSCAR COMPRADOR
@@ -78,20 +84,16 @@ public class Clientes extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Create BuscarCliente instance with the callback
-                new BuscarCliente(gestionConsecionaria);
-                dispose();
+                new BuscarCliente(gestionConsecionaria, ClienteEncontrado.comprador);
+                if (ClienteEncontrado.comprador != null ){
+                    selectedDni.setText(ClienteEncontrado.comprador.getDni());
+                    selectedNombre.setText(ClienteEncontrado.comprador.getNombre());
+                    selectedApellido.setText(ClienteEncontrado.comprador.getApellido());
+                    JOptionPane.showMessageDialog(null,"QUEPSA");
+                }
+                else JOptionPane.showMessageDialog(null,"no se escribe");
             }
         });
         //VER COMPRADORES COMPRADOR
-
-
-        // Implement ClienteEncontrado interface
-        ClienteEncontrado callback = new ClienteEncontrado() {
-            @Override
-            public void clienteEncontrado(Comprador comprador) {
-                // Store the found comprador in the Clientes class
-                selectedComprador = comprador;
-            }
-        };
     }
 }

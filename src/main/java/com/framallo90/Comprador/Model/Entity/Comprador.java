@@ -11,6 +11,9 @@ public class Comprador extends Usuario {
     private static Integer cont = 0;
     private String email;
 
+    public Comprador() {
+    }
+
     /**
      * Crea una nueva instancia de {@code Comprador} con el nombre, apellido, DNI y email especificados.
      * El identificador único se asigna automáticamente incrementando un contador estático.

@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 public class Pantalla extends JFrame {
     private JPanel pantallaIncio;
     private JPanel panel;
-    private JButton btnAdmin;
     private JButton btnIngreso;
     private JLabel tituloInicio;
     private JButton btnSalir;
@@ -17,7 +16,7 @@ public class Pantalla extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         //INGRESO
-        btnAdmin.addActionListener(new ActionListener() {
+        btnIngreso.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new GUILogin(gestionConsecionaria);

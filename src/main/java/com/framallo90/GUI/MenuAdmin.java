@@ -3,6 +3,7 @@ package com.framallo90.GUI;
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Comprador.Controller.CompradorController;
+import com.framallo90.Comprador.Model.Entity.Comprador;
 import com.framallo90.Empleados.Controller.EmpleadosController;
 import com.framallo90.GUI.CLIENTES.Clientes;
 import com.framallo90.Login.Login;
@@ -40,7 +41,7 @@ public class MenuAdmin extends JFrame{
         btnClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Clientes(gestionConsecionaria);
+                new Clientes(gestionConsecionaria, new Comprador());
                 dispose();
             }
         });

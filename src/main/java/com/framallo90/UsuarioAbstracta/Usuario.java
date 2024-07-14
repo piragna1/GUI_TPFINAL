@@ -21,6 +21,9 @@ public abstract class Usuario {
     private String apellido;
     private String dni;
 
+    public Usuario() {
+    }
+
     /**
      * Constructor que inicializa un usuario con nombre, apellido y número de documento.
      *

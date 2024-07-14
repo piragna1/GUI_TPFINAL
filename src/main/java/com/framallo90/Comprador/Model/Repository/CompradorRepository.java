@@ -43,10 +43,15 @@ public class CompradorRepository implements IRepository<Comprador, Integer> {
             if (setCompradores == null) {
                 setCompradores = new HashSet<>();
             } else {
-                Integer mayor = setCompradores.stream().mapToInt(Comprador::getId).max().getAsInt();
-                Comprador.setCont(mayor);
+                if (!setCompradores.isEmpty()){
+                    Integer mayor = setCompradores.stream().mapToInt(Comprador::getId).max().getAsInt();
+                    Comprador.setCont(mayor);
+                }
             }
-        } catch (IOException e) {
+        } catch (FileNotFoundException e){
+            setCompradores = new HashSet<>();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -161,4 +166,13 @@ public class CompradorRepository implements IRepository<Comprador, Integer> {
     public Set<Comprador> getsetCompradores() {
         return setCompradores;
     }
+
+    ///AUX
+    public boolean existeDni(String dni){
+        for (Comprador comprador:this.setCompradores)
+            if (dni.equals(comprador.getDni()))
+                return true;
+        return false;
+    }
+    ///AUX
 }
