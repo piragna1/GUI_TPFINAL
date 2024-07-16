@@ -2,11 +2,8 @@ package com.framallo90.GUI.CLIENTES;
 
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Comprador.Model.Entity.Comprador;
-import com.framallo90.Excepciones.InvalidIdNotFound;
 import com.framallo90.GUI.CLIENTES.auxiliar.ClienteEncontrado;
-import com.framallo90.Login.Login;
 import com.framallo90.UsuarioAbstracta.view.UsuarioView;
-import com.framallo90.consola.Consola;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -51,6 +48,8 @@ public class ModificarCliente extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Clientes(gestionConsecionaria,comprador);
+                new Clien
+                dispose();
             }
         });
         //ACEPTAR

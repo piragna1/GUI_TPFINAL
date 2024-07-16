@@ -89,9 +89,7 @@ public class Clientes extends JFrame{
                     selectedDni.setText(ClienteEncontrado.comprador.getDni());
                     selectedNombre.setText(ClienteEncontrado.comprador.getNombre());
                     selectedApellido.setText(ClienteEncontrado.comprador.getApellido());
-                    JOptionPane.showMessageDialog(null,"QUEPSA");
                 }
-                else JOptionPane.showMessageDialog(null,"no se escribe");
             }
         });
         //VER COMPRADORES COMPRADOR

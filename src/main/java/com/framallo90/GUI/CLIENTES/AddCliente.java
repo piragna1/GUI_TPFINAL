@@ -47,7 +47,18 @@ public class AddCliente extends JFrame {
         setVisible(true);
 
         //VOLVER
-
+        btnCancelar.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Clientes(gestionConsecionaria, new Comprador());
+                dispose();
+            }
+        });
 
         //AGREGAR CLIENTE
         btnEnviar.addActionListener(new ActionListener() {
@@ -60,20 +71,24 @@ public class AddCliente extends JFrame {
                 email1 = email.getText();
 
                 // Validate all fields
-                if (!isValidName(nombre1)) {
+                if (!gestionConsecionaria.compradorController.validarNombre(nombre1)) {
                     JOptionPane.showMessageDialog(null, "Nombre inválido.");
+                    dispose();
                     return; // Prevent submission
                 }
-                if (!isValidName(apellido1)) {
+                if (!gestionConsecionaria.compradorController.validarNombre(apellido1)) {
                     JOptionPane.showMessageDialog(null, "Apellido inválido.");
+                    dispose();
                     return; // Prevent submission
                 }
                 if (!UsuarioView.isValidDni(dniText)) {
                     JOptionPane.showMessageDialog(null, "DNI inválido.");
+                    dispose();
                     return; // Prevent submission
                 }
                 if (!isValidEmail(email1)) {
                     JOptionPane.showMessageDialog(null, "Email inválido.");
+                    dispose();
                     return; // Prevent submission
                 }
 
@@ -81,32 +96,6 @@ public class AddCliente extends JFrame {
                 // (e.g., save data, display success message)
                 JOptionPane.showMessageDialog(null, "Cliente creado correctamente.");
                 gestionConsecionaria.compradorController.add(nombre1,apellido1,dniText,email1);
-            }
-        });
-
-        //CANCELAR
-        btnCancelar.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Clientes clientes = new Clientes(gestionConsecionaria, new Comprador());
-                dispose();
-            }
-        });
-
-        //VOLVER A MENU CLIENTES
-        btnCancelar.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
                 new Clientes(gestionConsecionaria, new Comprador());
                 dispose();
             }

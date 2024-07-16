@@ -55,4 +55,9 @@ public class CompradorView {
             muestroUnComprador(comprador);
         }
     }
+
+    public boolean validarNombre(String nombre){
+        if (nombre.length()>0) return true;
+        return false;
+    }
 }

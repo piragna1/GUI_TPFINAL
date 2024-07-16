@@ -149,5 +149,9 @@ public class CompradorController {
     public boolean existeDni(String dni){
         return compradorRepository.existeDni(dni);
     }
+    public boolean validarNombre(String nombre){
+        return this.compradorView.validarNombre(nombre);
+    }
     ///AUX
+
 }
