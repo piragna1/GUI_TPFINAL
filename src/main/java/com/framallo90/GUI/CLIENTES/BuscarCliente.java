@@ -49,14 +49,8 @@ public class BuscarCliente extends JFrame {
         listaClientes.setModel(listaClientesModel);
         //VOLVER
         btnCancelar.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Clientes(gestionConsecionaria, new Comprador());
                 dispose();
             }
         });
@@ -115,7 +109,6 @@ public class BuscarCliente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedComprador != null) {
-                    new Clientes(gestionConsecionaria,ClienteEncontrado.comprador);
                     dispose(); // Close the window
                 } else {
                     JOptionPane.showMessageDialog(null, "Cliente no encontrado.");

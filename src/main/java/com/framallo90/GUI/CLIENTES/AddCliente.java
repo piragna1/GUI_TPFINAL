@@ -55,7 +55,6 @@ public class AddCliente extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Clientes(gestionConsecionaria, new Comprador());
                 dispose();
             }
         });
@@ -65,39 +64,33 @@ public class AddCliente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombre1 = null,apellido1=null,email1=null;
-                nombre1 = nombre.getText();
-                apellido1 = apellido.getText();
-                String dniText = dni.getText();
-                email1 = email.getText();
+                nombre1 = nombre.getText().trim();
+                apellido1 = apellido.getText().trim();
+                String dniText = dni.getText().trim();
+                email1 = email.getText().trim();
 
                 // Validate all fields
                 if (!gestionConsecionaria.compradorController.validarNombre(nombre1)) {
-                    JOptionPane.showMessageDialog(null, "Nombre inválido.");
-                    dispose();
-                    return; // Prevent submission
+                    JOptionPane.showMessageDialog(null, "Completar campo de nombre.");
                 }
                 if (!gestionConsecionaria.compradorController.validarNombre(apellido1)) {
-                    JOptionPane.showMessageDialog(null, "Apellido inválido.");
-                    dispose();
-                    return; // Prevent submission
+                    JOptionPane.showMessageDialog(null, "Completar campo de apellido.");
                 }
                 if (!UsuarioView.isValidDni(dniText)) {
                     JOptionPane.showMessageDialog(null, "DNI inválido.");
-                    dispose();
-                    return; // Prevent submission
                 }
-                if (!isValidEmail(email1)) {
+                if (!UsuarioView.isValidEmail(email1)) {
                     JOptionPane.showMessageDialog(null, "Email inválido.");
-                    dispose();
-                    return; // Prevent submission
                 }
 
-                // All fields valid, proceed with form submission logic
-                // (e.g., save data, display success message)
-                JOptionPane.showMessageDialog(null, "Cliente creado correctamente.");
-                gestionConsecionaria.compradorController.add(nombre1,apellido1,dniText,email1);
-                new Clientes(gestionConsecionaria, new Comprador());
-                dispose();
+                if (gestionConsecionaria.compradorController.validarNombre(nombre1)&&
+                    gestionConsecionaria.compradorController.validarNombre(apellido1)&&
+                    UsuarioView.isValidEmail(email1) &&
+                    UsuarioView.isValidDni(dniText)){
+                        JOptionPane.showMessageDialog(null, "Cliente creado correctamente.");
+                        gestionConsecionaria.compradorController.add(nombre1,apellido1,dniText,email1);
+                        dispose();
+                }
             }
         });
     }

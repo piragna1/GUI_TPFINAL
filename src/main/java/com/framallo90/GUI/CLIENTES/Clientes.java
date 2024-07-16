@@ -32,8 +32,6 @@ public class Clientes extends JFrame{
             selectedNombre.setText(comprador.getNombre());
             selectedApellido.setText(comprador.getApellido());
         }
-
-
         //VOLVER
         btnVolver.addActionListener(new ActionListener() {
             @Override
@@ -48,8 +46,7 @@ public class Clientes extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //GENERO CLIENTE
-                AddCliente addCliente = new AddCliente(gestionConsecionaria);
-                dispose();
+                new AddCliente(gestionConsecionaria);
             }
         });
 
@@ -59,7 +56,6 @@ public class Clientes extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if (ClienteEncontrado.comprador != null){
                     new ModificarCliente(gestionConsecionaria,ClienteEncontrado.comprador);
-                    dispose();
                 } else JOptionPane.showMessageDialog(null, "Aún no hay un cliente seleccionado.");
             }
         });

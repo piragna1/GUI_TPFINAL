@@ -149,8 +149,14 @@ public class CompradorController {
     public boolean existeDni(String dni){
         return compradorRepository.existeDni(dni);
     }
+    public boolean existeCorreo(String correo){
+        return compradorRepository.existeCorreo(correo);
+    }
     public boolean validarNombre(String nombre){
         return this.compradorView.validarNombre(nombre);
+    }
+    public void updateComprador(Integer id, Comprador nuevo) throws InvalidIdNotFound {
+        CompradorController.compradorRepository.update(id,nuevo);
     }
     ///AUX
 

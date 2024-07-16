@@ -174,5 +174,11 @@ public class CompradorRepository implements IRepository<Comprador, Integer> {
                 return true;
         return false;
     }
+    public boolean existeCorreo(String correo){
+        for (Comprador comprador: this.setCompradores)
+            if (correo.equals(comprador.getEmail()))
+                return true;
+        return false;
+    }
     ///AUX
 }
