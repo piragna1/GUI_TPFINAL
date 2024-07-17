@@ -3,6 +3,7 @@ package com.framallo90.GUI.CLIENTES;
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Comprador.Model.Entity.Comprador;
 import com.framallo90.Excepciones.InvalidIdNotFound;
+import com.framallo90.GUI.CLIENTES.auxiliar.ClienteEncontrado;
 import com.framallo90.UsuarioAbstracta.view.UsuarioView;
 
 import javax.swing.*;
@@ -48,25 +49,28 @@ public class ModificarCliente extends JFrame{
         });
         //ACEPTAR
         this.aceptarButton.addActionListener(new ActionListener() {
-            String nombre=nuevoNombre.toString(),
-                    apellido=nuevoApellido.toString(),
-                    dni=nuevoDni.toString(),
-                    email = nuevoCorreo.toString();
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (nombre.isEmpty()) nombre = comprador.getNombre();
-                if (apellido.isEmpty()) apellido = comprador.getApellido();
-                if (dni.isEmpty()) dni = comprador.getDni();
-                if (email.isEmpty()) email = comprador.getEmail();
-                Comprador nuevo = new Comprador(nombre,apellido,dni,email);
+                String nombre = nuevoNombre.getText(),
+                        apellido = nuevoApellido.getText(),
+                        dni = nuevoDni.getText(),
+                        email = nuevoCorreo.getText();
+
+                if (!nombre.isEmpty()) comprador.setNombre(nombre);
+                if (!apellido.isEmpty()) comprador.setApellido(apellido);
+                if (!dni.isEmpty()) comprador.setDni(dni);
+                if (!email.isEmpty()) comprador.setEmail(email);
+
                 try {
-                    gestionConsecionaria.compradorController.updateComprador(comprador.getId(),
-                            nuevo);
-                    JOptionPane.showMessageDialog(null,"Datos modificados correctamente.");
+                    // Update the buyer directly
+                    gestionConsecionaria.compradorController.updateComprador(comprador.getId(), comprador);
+
+                    JOptionPane.showMessageDialog(null, "Datos modificados correctamente.");
+                    // Update ClienteEncontrado only if it's used for display purposes (optional)
+                    ClienteEncontrado.setComprador(comprador);
                     dispose();
                 } catch (InvalidIdNotFound ex) {
-                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                     dispose();
                 }
             }

@@ -3,13 +3,14 @@ package com.framallo90.GUI.CLIENTES;
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Comprador.Model.Entity.Comprador;
 import com.framallo90.GUI.CLIENTES.auxiliar.ClienteEncontrado;
+import com.framallo90.GUI.Interfaces.ClienteEncontradoListener;
 import com.framallo90.GUI.MenuAdmin;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Clientes extends JFrame{
+public class Clientes extends JFrame implements ClienteEncontradoListener {
     private JPanel menuClientes;
     private JButton btnAgregar;
     private JButton btnModificar;
@@ -27,6 +28,7 @@ public class Clientes extends JFrame{
         setSize(450,450);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        ClienteEncontrado.addListener(this);
         if (comprador != null){
             selectedDni.setText(comprador.getDni());
             selectedNombre.setText(comprador.getNombre());
@@ -38,6 +40,7 @@ public class Clientes extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 new MenuAdmin(gestionConsecionaria);
                 ClienteEncontrado.comprador = null;
+                ClienteEncontrado.removeListener(Clientes.this);
                 dispose();
             }
         });
@@ -81,13 +84,15 @@ public class Clientes extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 // Create BuscarCliente instance with the callback
                 new BuscarCliente(gestionConsecionaria, ClienteEncontrado.comprador);
-                if (ClienteEncontrado.comprador != null ){
-                    selectedDni.setText(ClienteEncontrado.comprador.getDni());
-                    selectedNombre.setText(ClienteEncontrado.comprador.getNombre());
-                    selectedApellido.setText(ClienteEncontrado.comprador.getApellido());
-                }
             }
         });
         //VER COMPRADORES COMPRADOR
+    }
+
+    @Override
+    public void onCompradorChanged(Comprador comprador) {
+        selectedDni.setText(comprador.getDni()!=null ? comprador.getDni() : "");
+        selectedNombre.setText(comprador.getNombre()!=null ? comprador.getNombre():"");
+        selectedApellido.setText(comprador.getApellido()!=null ? comprador.getApellido():"");
     }
 }

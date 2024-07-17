@@ -26,19 +26,6 @@ public class BuscarCliente extends JFrame {
     private JList listaClientes;
     private JScrollPane scrollPane;
     private final DefaultListModel<Comprador> listaClientesModel = new DefaultListModel<Comprador>();
-    /**
-     * Constructs a new frame that is initially invisible.
-     * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
-     *
-     * @throws HeadlessException if GraphicsEnvironment.isHeadless()
-     *                           returns true.
-     * @see GraphicsEnvironment#isHeadless
-     * @see Component#setSize
-     * @see Component#setVisible
-     * @see JComponent#getDefaultLocale
-     */
     public BuscarCliente(GestionConsecionaria gestionConsecionaria, Comprador clienteEncontrado)  {
         setContentPane(buscarCliente);
         setTitle("Buscar cliente");
@@ -85,9 +72,9 @@ public class BuscarCliente extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) { // Avoid updates during selection change
                     selectedComprador = (Comprador) listaClientes.getSelectedValue();
-                    ClienteEncontrado.comprador = selectedComprador;
                     if (selectedComprador != null) {
                         // Fill form fields with selected Comprador data
+                        ClienteEncontrado.setComprador(selectedComprador);
                         nombreField.setText(selectedComprador.getNombre());
                         apellidoField.setText(selectedComprador.getApellido());
                         dniField.setText(selectedComprador.getDni().toString()); // Assuming DNI is a String
@@ -109,6 +96,7 @@ public class BuscarCliente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedComprador != null) {
+                    ClienteEncontrado.setComprador(selectedComprador);
                     dispose(); // Close the window
                 } else {
                     JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
