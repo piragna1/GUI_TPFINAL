@@ -14,11 +14,10 @@ import com.framallo90.Empleados.Model.Repository.EmpleadosRepository;
 import com.framallo90.Empleados.View.EmpleadosView;
 import com.framallo90.Excepciones.CeroAdminsException;
 import com.framallo90.Excepciones.InvalidIdNotFound;
+import com.framallo90.Excepciones.NotFoundDNIException;
 import com.framallo90.consola.Consola;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class EmpleadosController {
     /**
@@ -46,6 +45,21 @@ public class EmpleadosController {
      * Permite al usuario crear un nuevo empleado.
      */
     public void crearEmpleado() {
+        Empleados nuevoEmpleado = empleadosView.generarEmpleado();
+        if (nuevoEmpleado != null) {
+            if (this.compruebaDni(nuevoEmpleado.getDni())) {
+                // El empleado ya existe. Se disminuye el contador de empleados en 1.
+                Empleados.setCont(Empleados.getCont() - 1);
+            } else {
+                // El empleado no existe. Se agrega al repositorio.
+                empleadosRepository.add(nuevoEmpleado);
+            }
+        }
+    }
+
+    public void crearEmpleado(String nombre, String apellido,
+                              String dni, String usuario,
+                              String clave, String adminKey) {
         Empleados nuevoEmpleado = empleadosView.generarEmpleado();
         if (nuevoEmpleado != null) {
             if (this.compruebaDni(nuevoEmpleado.getDni())) {
@@ -225,4 +239,19 @@ public class EmpleadosController {
             }
         } while (opt != 0);
     }
+
+    //AUX
+    public boolean claveAdminValida(String clave){
+        return this.empleadosView.claveAdminValida(clave);
+    }
+    public boolean validarUsername(String username){
+        return this.empleadosRepository.existeUsername(username);
+    }
+    public boolean validarClave(String clave){
+        return this.empleadosView.validarPassword(clave);
+    }
+    public List<Empleados> finXfiltro(String dni) throws NotFoundDNIException {
+        return this.empleadosRepository.findXFiltro(dni);
+    }
+    //AUX
 }

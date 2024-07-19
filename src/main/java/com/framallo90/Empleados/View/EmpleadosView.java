@@ -14,6 +14,9 @@ import java.util.List;
 
 public class EmpleadosView {
 
+    //AUX
+    private static final String clave = "admin";
+    //AUX
     /**
      * Genera un nuevo objeto Empleados a partir de la información ingresada por el usuario.
      *
@@ -47,6 +50,16 @@ public class EmpleadosView {
         this.mostrarEmpleado(devol);
         return devol;
     }
+    public Empleados generarEmpleado(String nombre, String apellido,
+                                     String username, String password,
+                                     String dni, String adminKey) {
+        String tipo;
+        if (adminKey.equals(EmpleadosView.clave))
+            tipo = "administrador";
+        else tipo = "vendedor";
+        Empleados devol = new Empleados(nombre, apellido, dni, 0, username, password, tipo);
+        return devol;
+    }
 
     /**
      * Valida que la contraseña cumpla con los requisitos mínimos.
@@ -54,9 +67,9 @@ public class EmpleadosView {
      * @param password Contraseña a validar.
      * @return true si la contraseña es válida, false en caso contrario.
      */
-    private boolean validarPassword(String password) {
+    public boolean validarPassword(String password) {
         // Patrón de expresión regular para la validación
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).*$";
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$";
 
         // Validación usando expresiones regulares
         return password.matches(regex);
@@ -167,4 +180,11 @@ public class EmpleadosView {
             mostrarEmpleado(empleado);
         }
     }
+
+
+    //AUX
+    public boolean claveAdminValida(String clave){
+        return clave.equals(EmpleadosView.clave);
+    }
+    //AUX
 }

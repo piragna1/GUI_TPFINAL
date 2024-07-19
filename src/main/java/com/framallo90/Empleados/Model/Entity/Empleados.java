@@ -39,6 +39,9 @@ public class Empleados extends Usuario {
      */
     private static Integer cont = 0;
 
+    public Empleados() {
+    }
+
     /**
      * Constructor para la clase `Empleados`.
      *
@@ -168,5 +171,10 @@ public class Empleados extends Usuario {
     }
     public void disminucionAutosVendidos(){
         this.autosvendidos = autosvendidos-1;
+    }
+
+    @Override
+    public String toString() {
+        return this.getUsername() + " - " + this.getDni();
     }
 }

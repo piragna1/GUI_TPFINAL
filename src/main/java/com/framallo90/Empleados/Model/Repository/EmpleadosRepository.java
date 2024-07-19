@@ -9,9 +9,11 @@
  */
 package com.framallo90.Empleados.Model.Repository;
 
+import com.framallo90.Comprador.Model.Entity.Comprador;
 import com.framallo90.Empleados.Model.Entity.Empleados;
 import com.framallo90.Excepciones.CeroAdminsException;
 import com.framallo90.Excepciones.InvalidIdNotFound;
+import com.framallo90.Excepciones.NotFoundDNIException;
 import com.framallo90.Interfaces.IRepository;
 import com.framallo90.consola.Consola;
 import com.google.gson.Gson;
@@ -25,6 +27,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class EmpleadosRepository implements IRepository<Empleados, Integer> {
     private List<Empleados> list;
@@ -287,4 +290,27 @@ public class EmpleadosRepository implements IRepository<Empleados, Integer> {
         }
         return false;
     }
+
+    //AUX
+    public boolean existeUsername(String username){
+        for (Empleados empleados : this.list)
+            if (empleados.getUsername().equals(username))
+                return true;
+        return false;
+    }
+    public List<Empleados> findXFiltro(String dni) throws NotFoundDNIException {
+        if (dni == null || dni.isEmpty())
+            throw new NotFoundDNIException();
+        int filterLength = dni.length();
+        // Filter Empleados based on the first n characters of their DNI
+        List<Empleados> filteredEmpleados = this.list.stream()
+                .filter(comprador -> comprador.getDni().substring(0, filterLength).equals(dni))
+                .collect(Collectors.toList());
+        // Check if any Compradores were found
+        if (filteredEmpleados.isEmpty()) {
+            throw new NotFoundDNIException("No se han encontrado empleados con el DNI especificado.");
+        }
+        return filteredEmpleados;
+    }
+    //AUX
 }

@@ -1,13 +1,10 @@
 package com.framallo90.GUI;
 
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
-import com.framallo90.Automovil.Controller.AutomovilController;
-import com.framallo90.Comprador.Controller.CompradorController;
 import com.framallo90.Comprador.Model.Entity.Comprador;
-import com.framallo90.Empleados.Controller.EmpleadosController;
-import com.framallo90.GUI.CLIENTES.Clientes;
-import com.framallo90.Login.Login;
-import com.framallo90.Venta.Controller.VentaController;
+import com.framallo90.Empleados.Model.Entity.Empleados;
+import com.framallo90.GUI.CLIENTES.admin.ClientesAdmin;
+import com.framallo90.GUI.USUARIOS.admin.UsuariosAdmin;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -41,8 +38,16 @@ public class MenuAdmin extends JFrame{
         btnClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Clientes(gestionConsecionaria, new Comprador());
+                new ClientesAdmin(gestionConsecionaria);
                 dispose();
+            }
+        });
+
+        //MENU EMPLEADOS
+        btnUsuarios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UsuariosAdmin(gestionConsecionaria, new Empleados());
             }
         });
     }

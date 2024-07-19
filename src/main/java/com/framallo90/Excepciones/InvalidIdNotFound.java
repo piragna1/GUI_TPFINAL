@@ -17,10 +17,6 @@ public class InvalidIdNotFound extends Exception {
     public InvalidIdNotFound() {
         super();
     }
-    @Override
-    public String getMessage() {
-        return message;
-    }
 
     /**
      * Constructor que permite especificar un mensaje personalizado para la excepción.
@@ -29,5 +25,10 @@ public class InvalidIdNotFound extends Exception {
      */
     public InvalidIdNotFound(String message) {
         super(message);
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }
