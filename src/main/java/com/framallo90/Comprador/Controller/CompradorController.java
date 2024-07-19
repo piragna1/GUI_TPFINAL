@@ -7,6 +7,7 @@ import com.framallo90.UsuarioAbstracta.view.UsuarioView;
 import com.framallo90.consola.Consola;
 
 import java.util.List;
+import java.util.Set;
 
 public class CompradorController {
     private static CompradorView compradorView;
@@ -31,7 +32,7 @@ public class CompradorController {
                     add();
                     break;
                 case 2:
-                    verHisorial();
+                    verHistorial();
                     Comprador comprador;
                     try {
                         Integer dniComprador = Integer.parseInt(Consola.ingresarXStringSimple("dni del comprador"));
@@ -78,15 +79,15 @@ public class CompradorController {
 
                     break;
                 case 3:
-                    verHisorial();
+                    verHistorial();
                     remove();
                     break;
                 case 4:
-                    verHisorial();
+                    verHistorial();
                     show();
                     break;
                 case 5:
-                    verHisorial();
+                    verHistorial();
                     break;
                 case 0:
                     System.out.println("Saliste del Menu Cliente.");
@@ -141,7 +142,7 @@ public class CompradorController {
         //compradorView.muestroCompradores(compradorRepository.getsetCompradores());
         return compradorRepository.findXFiltro(dni);
     }
-    public void verHisorial() {
+    public void verHistorial() {
         compradorView.muestroCompradores(compradorRepository.getsetCompradores());
     }
 
@@ -157,6 +158,10 @@ public class CompradorController {
     }
     public void updateComprador(Integer id, Comprador nuevo) throws InvalidIdNotFound {
         CompradorController.compradorRepository.update(id,nuevo);
+    }
+
+    public Set<Comprador> getListaCompradores(){
+        return  compradorRepository.getsetCompradores();
     }
     ///AUX
 

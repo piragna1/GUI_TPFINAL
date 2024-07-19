@@ -1,5 +1,4 @@
 package com.framallo90.Venta.Controller;
-import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Automovil.Controller.AutomovilController;
 import com.framallo90.Automovil.Model.Entity.Automovil;
 import com.framallo90.Comprador.Controller.CompradorController;
@@ -64,7 +63,7 @@ public class VentaController {
             throw new InvalidIdNotFound("El Empleado NO se encuentra registrado.");
         }
         // Selección del comprador
-        this.compradorController.verHisorial();
+        this.compradorController.verHistorial();
         Integer dniComprador = Integer.parseInt(Consola.ingresarXStringSimple("dni del comprador"));
         Comprador comprador = this.compradorController.find(dniComprador);
         if (comprador == null) {
@@ -171,7 +170,7 @@ public class VentaController {
 
     }
     public void cambiarCompradorVenta(Venta venta){
-        this.compradorController.verHisorial();
+        this.compradorController.verHistorial();
         Integer id = Consola.ingresarXInteger("id del vendedor");
 
         try{

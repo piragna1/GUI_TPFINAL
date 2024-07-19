@@ -86,7 +86,13 @@ public class Clientes extends JFrame implements ClienteEncontradoListener {
                 new BuscarCliente(gestionConsecionaria, ClienteEncontrado.comprador);
             }
         });
-        //VER COMPRADORES COMPRADOR
+        //VER HISTORIAL
+        btnVerHistorial.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VerHistorial(gestionConsecionaria);
+            }
+        });
     }
 
     @Override
