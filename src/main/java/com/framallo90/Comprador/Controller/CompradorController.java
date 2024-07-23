@@ -154,7 +154,7 @@ public class CompradorController {
         return compradorRepository.existeCorreo(correo);
     }
     public boolean validarNombre(String nombre){
-        return this.compradorView.validarNombre(nombre);
+        return compradorView.validarNombre(nombre);
     }
     public void updateComprador(Integer id, Comprador nuevo) throws InvalidIdNotFound {
         CompradorController.compradorRepository.update(id,nuevo);

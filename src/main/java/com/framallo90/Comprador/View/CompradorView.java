@@ -57,7 +57,6 @@ public class CompradorView {
     }
 
     public boolean validarNombre(String nombre){
-        if (nombre.length()>0) return true;
-        return false;
+        return !nombre.isEmpty();
     }
 }

@@ -33,17 +33,17 @@ public class ClientesAdmin extends JFrame implements ClienteEncontradoListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         ClienteEncontrado.addListener(this);
-        if (comprador != null){
-            selectedDni.setText(comprador.getDni());
-            selectedNombre.setText(comprador.getNombre());
-            selectedApellido.setText(comprador.getApellido());
+        if (ClienteEncontrado.comprador != null){
+            selectedDni.setText(ClienteEncontrado.comprador.getDni());
+            selectedNombre.setText(ClienteEncontrado.comprador.getNombre());
+            selectedApellido.setText(ClienteEncontrado.comprador.getApellido());
         }
         //VOLVER
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new MenuAdmin(gestionConsecionaria);
-                ClienteEncontrado.comprador = null;
+                ClienteEncontrado.setComprador(null);
                 ClienteEncontrado.removeListener(ClientesAdmin.this);
                 dispose();
             }

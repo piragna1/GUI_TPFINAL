@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class Agregar extends JFrame{
     private JTextField textNombre;
@@ -51,46 +52,73 @@ public class Agregar extends JFrame{
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nombre="",apellido="",dni="",usuario="",clave="";
+                StringBuilder errorMessage = new StringBuilder(); // Collect validation errors
+                boolean isValid = true; // Track overall validity
 
-                nombre = textNombre.toString();
-                apellido=textApellido.toString();
-                dni = textDni.toString();
-                usuario=textUsuario.toString();
-                clave=textClave.toString();
+                String nombre = textNombre.getText().trim();
+                String apellido = textApellido.getText().trim();
+                String dni = textDni.getText().trim();
+                String usuario = textUsuario.getText().trim();
+                String clave = new String(textClave.getPassword()).trim(); // Convert char[] to String
 
-                if (nombre.isEmpty()){
-                    JOptionPane.showMessageDialog(null, "Completar campo de nombre.");
-                }if (apellido.isEmpty()){
-                    JOptionPane.showMessageDialog(null, "Completar campo de apellido.");
-                }if (!UsuarioView.isValidDni(dni)){
-                    JOptionPane.showMessageDialog(null, "DNI inválido.");
-                }if (usuario.isEmpty()){
-                    JOptionPane.showMessageDialog(null, "Agregar un nombre de usuario.");
-                }else{
-                    //Validar usuario (verificar que no se encuentre en uso.)
-                    if (!gestionConsecionaria.empleadosController.validarUsername(usuario))
-                        JOptionPane.showMessageDialog(null,"El nombre de usuario ya se encuentra en uso.");
-                }if (clave.isEmpty()){
-                    JOptionPane.showMessageDialog(null,"Completar campo de clave.");
-                }else{
-                    if (!gestionConsecionaria.empleadosController.validarClave(clave))
-                        JOptionPane.showMessageDialog(null, "Clave inválida. Reintentar.");
-                    else{
-                        if (!textConfirmacionClave.toString().equals(clave))
-                            JOptionPane.showMessageDialog(null,"Las claves no coinciden. Reintentar.");
+                // Validate name (optional)
+                if (nombre.isEmpty()) {
+                    errorMessage.append("Ingrese un nombre.\n");
+                    isValid = false;
+                }
+
+                // Validate surname (optional)
+                if (apellido.isEmpty()) {
+                    errorMessage.append("Ingrese un apellido.\n");
+                    isValid = false;
+                }
+
+                // Validate DNI using UsuarioView.isValidDni()
+                if (!UsuarioView.isValidDni(dni)) {
+                    errorMessage.append("DNI inválido.\n");
+                    isValid = false;
+                }
+
+                if (!gestionConsecionaria.empleadosController.disponibilidadDNI(dni)){
+                    errorMessage.append("Ya existe un usuario con el DNI ingresado.\n");
+                    isValid = false;
+                }
+
+                // Validate username (optional)
+                if (usuario.isEmpty()) {
+                    errorMessage.append("Ingrese un nombre de usuario.\n");
+                    isValid = false;
+                } else {
+                    // Validate username existence (implement logic using gestionConsecionaria)
+                    if (!gestionConsecionaria.empleadosController.validarUsername(usuario)) {
+                        errorMessage.append("El nombre de usuario ya se encuentra en uso.\n");
+                        isValid = false;
                     }
                 }
 
-                if (!nombre.isEmpty()&&
-                        !apellido.isEmpty()&&
-                        UsuarioView.isValidDni(dni)&&
-                        !usuario.isEmpty()
-                        &&gestionConsecionaria.empleadosController.validarClave(clave)&&
-                        textConfirmacionClave.toString().equals(clave)){
-                    gestionConsecionaria.empleadosController.crearEmpleado(nombre,apellido,dni,usuario,clave,textClaveAdmin.toString());
-                    JOptionPane.showMessageDialog(null,"El empleado ha sido creado correctamente.");
+                // Validate password (use a separate method for complexity checks, for example)
+                if (clave.isEmpty()) {
+                    errorMessage.append("Ingrese una contraseña.\n");
+                    isValid = false;
+                } else {
+                    if (!gestionConsecionaria.empleadosController.validarClave(clave)) { // Call a method for password complexity checks
+                        errorMessage.append("La contraseña debe cumplir con los requisitos de complejidad.\n");
+                        isValid = false;
+                    } else if (!Arrays.equals(textClave.getPassword(), textConfirmacionClave.getPassword())) {
+                        errorMessage.append("Las contraseñas no coinciden.\n");
+                        isValid = false;
+                    }
+                }
+
+
+                if (isValid) {
+                    // Valid data, proceed with employee creation using gestionConsecionaria
+                    // ...
+                    JOptionPane.showMessageDialog(null, "El empleado ha sido creado correctamente.");
+                    gestionConsecionaria.empleadosController.crearEmpleado(nombre,apellido,dni,usuario,clave, new String(textClaveAdmin.getPassword()));
                     dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, errorMessage.toString(), "Error de validación", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

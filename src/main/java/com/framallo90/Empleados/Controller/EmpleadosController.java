@@ -60,16 +60,8 @@ public class EmpleadosController {
     public void crearEmpleado(String nombre, String apellido,
                               String dni, String usuario,
                               String clave, String adminKey) {
-        Empleados nuevoEmpleado = empleadosView.generarEmpleado();
-        if (nuevoEmpleado != null) {
-            if (this.compruebaDni(nuevoEmpleado.getDni())) {
-                // El empleado ya existe. Se disminuye el contador de empleados en 1.
-                Empleados.setCont(Empleados.getCont() - 1);
-            } else {
-                // El empleado no existe. Se agrega al repositorio.
-                empleadosRepository.add(nuevoEmpleado);
-            }
-        }
+        Empleados nuevoEmpleado = empleadosView.generarEmpleado(nombre, apellido, usuario, clave, dni, adminKey);
+        empleadosRepository.add(nuevoEmpleado);
     }
 
     /**
@@ -245,13 +237,16 @@ public class EmpleadosController {
         return this.empleadosView.claveAdminValida(clave);
     }
     public boolean validarUsername(String username){
-        return this.empleadosRepository.existeUsername(username);
+        return !this.empleadosRepository.existeUsername(username);
     }
     public boolean validarClave(String clave){
         return this.empleadosView.validarPassword(clave);
     }
     public List<Empleados> finXfiltro(String dni) throws NotFoundDNIException {
         return this.empleadosRepository.findXFiltro(dni);
+    }
+    public boolean disponibilidadDNI(String dni){
+        return !this.empleadosRepository.existeDni(dni);
     }
     //AUX
 }

@@ -3,11 +3,12 @@ package com.framallo90.GUI.USUARIOS.auxiliar;
 import com.framallo90.Empleados.Model.Entity.Empleados;
 import com.framallo90.GUI.Interfaces.EmpleadoEncontradoListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmpleadoEncontrado implements EmpleadoEncontradoListener {
     public static Empleados empleados;
-    private static List<EmpleadoEncontradoListener> listeners;
+    private static final List<EmpleadoEncontradoListener> listeners = new ArrayList<>();
 
     public EmpleadoEncontrado() {
     }

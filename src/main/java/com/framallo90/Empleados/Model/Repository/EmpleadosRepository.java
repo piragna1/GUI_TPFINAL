@@ -312,5 +312,11 @@ public class EmpleadosRepository implements IRepository<Empleados, Integer> {
         }
         return filteredEmpleados;
     }
+    public boolean existeDni(String dni){
+        for (Empleados empleados : this.list)
+            if (empleados.getDni().equals(dni))
+                return true;
+        return false;
+    }
     //AUX
 }

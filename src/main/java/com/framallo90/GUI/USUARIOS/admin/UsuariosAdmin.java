@@ -3,6 +3,7 @@ package com.framallo90.GUI.USUARIOS.admin;
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Empleados.Model.Entity.Empleados;
 import com.framallo90.GUI.Interfaces.EmpleadoEncontradoListener;
+import com.framallo90.GUI.MenuAdmin;
 import com.framallo90.GUI.USUARIOS.admin.funcionalidades.agregar.Agregar;
 import com.framallo90.GUI.USUARIOS.admin.funcionalidades.agregar.Buscar;
 import com.framallo90.GUI.USUARIOS.auxiliar.EmpleadoEncontrado;
@@ -11,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static com.framallo90.GUI.USUARIOS.auxiliar.EmpleadoEncontrado.empleados;
 
 public class UsuariosAdmin extends JFrame implements EmpleadoEncontradoListener {
     private JPanel menuUsuarios;
@@ -36,7 +39,7 @@ public class UsuariosAdmin extends JFrame implements EmpleadoEncontradoListener 
      * @see Component#setVisible
      * @see JComponent#getDefaultLocale
      */
-    public UsuariosAdmin(GestionConsecionaria gestionConsecionaria, Empleados empleados) throws HeadlessException {
+    public UsuariosAdmin(GestionConsecionaria gestionConsecionaria) throws HeadlessException {
         setContentPane(panel);
         setTitle("Menú usuarios - administrador");
         setSize(450,450);
@@ -45,12 +48,17 @@ public class UsuariosAdmin extends JFrame implements EmpleadoEncontradoListener 
         EmpleadoEncontrado.addListener(UsuariosAdmin.this);
         if (empleados != null ){
             usuario.setText(empleados.toString());
-        }
+        }else
+            usuario.setText("");
         //VOLVER
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                EmpleadoEncontrado.setEmpleados(null);
+                EmpleadoEncontrado.removeListener(UsuariosAdmin.this);
+                dispose();
+                new MenuAdmin(gestionConsecionaria);
             }
         });
         //AGREGAR

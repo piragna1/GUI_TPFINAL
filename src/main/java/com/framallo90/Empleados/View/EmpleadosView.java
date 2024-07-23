@@ -57,8 +57,7 @@ public class EmpleadosView {
         if (adminKey.equals(EmpleadosView.clave))
             tipo = "administrador";
         else tipo = "vendedor";
-        Empleados devol = new Empleados(nombre, apellido, dni, 0, username, password, tipo);
-        return devol;
+        return new Empleados(nombre, apellido, dni, 0, username, password, tipo);
     }
 
     /**
@@ -69,7 +68,7 @@ public class EmpleadosView {
      */
     public boolean validarPassword(String password) {
         // Patrón de expresión regular para la validación
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$";
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{7,15}$";
 
         // Validación usando expresiones regulares
         return password.matches(regex);
