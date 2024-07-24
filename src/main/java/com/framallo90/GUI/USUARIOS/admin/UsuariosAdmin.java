@@ -5,7 +5,8 @@ import com.framallo90.Empleados.Model.Entity.Empleados;
 import com.framallo90.GUI.Interfaces.EmpleadoEncontradoListener;
 import com.framallo90.GUI.MenuAdmin;
 import com.framallo90.GUI.USUARIOS.admin.funcionalidades.agregar.Agregar;
-import com.framallo90.GUI.USUARIOS.admin.funcionalidades.agregar.Buscar;
+import com.framallo90.GUI.USUARIOS.admin.funcionalidades.buscar.Buscar;
+import com.framallo90.GUI.USUARIOS.admin.funcionalidades.modificar.Modificar;
 import com.framallo90.GUI.USUARIOS.auxiliar.EmpleadoEncontrado;
 
 import javax.swing.*;
@@ -72,15 +73,22 @@ public class UsuariosAdmin extends JFrame implements EmpleadoEncontradoListener 
         buscarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Buscar(gestionConsecionaria, null);
+                new Buscar(gestionConsecionaria);
             }
         });
         //MODIFICAR
+        btnModificar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Modificar(gestionConsecionaria,empleados);
+            }
+        });
         //ELIMINAR
         //VER EXISTENTES
     }
 
     @Override
     public void onEmpleadoChanged(Empleados empleados) {
+        usuario.setText(empleados != null ? empleados.toString() : "");
     }
 }

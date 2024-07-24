@@ -20,6 +20,7 @@ public class EmpleadoEncontrado implements EmpleadoEncontradoListener {
 
     public static void setEmpleados(Empleados empleados) {
         EmpleadoEncontrado.empleados = empleados;
+        notifyListeners();
     }
 
     public static void addListener(EmpleadoEncontradoListener empleadoEncontradoListener){

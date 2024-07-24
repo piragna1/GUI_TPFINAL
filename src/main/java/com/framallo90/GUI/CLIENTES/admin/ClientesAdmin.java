@@ -2,10 +2,10 @@ package com.framallo90.GUI.CLIENTES.admin;
 
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Comprador.Model.Entity.Comprador;
-import com.framallo90.GUI.CLIENTES.admin.funcionalidades.AddCliente;
-import com.framallo90.GUI.CLIENTES.admin.funcionalidades.BuscarCliente;
-import com.framallo90.GUI.CLIENTES.admin.funcionalidades.ModificarCliente;
-import com.framallo90.GUI.CLIENTES.admin.funcionalidades.VerHistorial;
+import com.framallo90.GUI.CLIENTES.admin.funcionalidades.agregar.AddCliente;
+import com.framallo90.GUI.CLIENTES.admin.funcionalidades.buscar.BuscarCliente;
+import com.framallo90.GUI.CLIENTES.admin.funcionalidades.modificar.ModificarCliente;
+import com.framallo90.GUI.CLIENTES.admin.funcionalidades.verHistorial.VerHistorial;
 import com.framallo90.GUI.CLIENTES.auxiliar.ClienteEncontrado;
 import com.framallo90.GUI.Interfaces.ClienteEncontradoListener;
 import com.framallo90.GUI.MenuAdmin;
