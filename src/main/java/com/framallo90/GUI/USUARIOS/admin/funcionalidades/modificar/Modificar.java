@@ -8,11 +8,11 @@ import com.framallo90.GUI.USUARIOS.auxiliar.EmpleadoEncontrado;
 import com.framallo90.UsuarioAbstracta.view.UsuarioView;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 public class Modificar extends JFrame{
     private GestionConsecionaria gestionConsecionaria;
@@ -70,40 +70,36 @@ public class Modificar extends JFrame{
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nombre = nuevoNombre.getText(),
-                        apellido = nuevoApellido.getText(),
-                        dni = nuevoDni.getText(),
-                        usuario = nuevoUsuario.getText(),
-                        clave = Arrays.toString(nuevaClave.getPassword()),
-                        tipo = nuevoTipo.getText();
-
-
-                if (!nombre.isEmpty()) empleados.setNombre(nombre);
-                if (!apellido.isEmpty()) empleados.setApellido(apellido);
-                if (!dni.isEmpty()){
-                    if (UsuarioView.isValidDni(dni))
-                        if (gestionConsecionaria.empleadosController.disponibilidadDNI(dni))
-                            empleados.setDni(dni);
+                if (!nuevoNombre.getText().isEmpty())
+                    empleados.setNombre(nuevoNombre.getText());
+                if (!nuevoApellido.getText().isEmpty())
+                    empleados.setApellido(nuevoApellido.getText());
+                if (!nuevoDni.getText().isEmpty()){
+                    if (UsuarioView.isValidDni(nuevoDni.getText()))
+                        if (gestionConsecionaria.empleadosController.disponibilidadDNI(nuevoDni.getText()))
+                            empleados.setDni(nuevoDni.getText());
                         else JOptionPane.showMessageDialog(null, "Ya existe otro empleado con el DNI ingresado.");
                     else JOptionPane.showMessageDialog(null,"Ingresar un DNI válido.");
                 }
-                if (!usuario.isEmpty()){
+                if (!nuevoUsuario.getText().isEmpty()){
                     //VALIDAR USUARIO
-                    if (gestionConsecionaria.empleadosController.validarUsername(usuario))
-                        empleados.setUsername(usuario);
+                    if (gestionConsecionaria.empleadosController.validarUsername(nuevoUsuario.getText()))
+                        empleados.setUsername(nuevoUsuario.getText());
                     else JOptionPane.showMessageDialog(null, "El nombre de usuario no se encuentra disponible.");
                 }
-                if (!clave.isEmpty()){
-                    if (empleados.getPassword().equals(clave)){
+                if (!Arrays.toString(nuevaClave.getPassword()).isEmpty()){
+                    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                    String clave2 = encoder.encode(Arrays.toString(claveActual.getPassword()));
+                    if (encoder.matches(Arrays.toString(nuevaClave.getPassword()), clave2)){
                         new CambiarClave(gestionConsecionaria, empleados);
                     } else JOptionPane.showMessageDialog(null,"La clave ingresada debe coincidir con la actual.");
                 }
-                if (!tipo.isEmpty()){
+                if (!nuevoTipo.getText().isEmpty()){
                     //Si el tipo ingresado es administrador o ADMINISTRADOR:
-                        //Solicitar al usuario que ingrese la clave de administrador.
-                            //Si la clave es correcta, cambiar el tipo de usuario a administrador.
-                            //En caso contrario mostrar mensaje de error (permitir seguir intentado 2 veces más y cancelar).
-                    empleados.setTipo(tipo);
+                    if (nuevoTipo.getText().equalsIgnoreCase("administrador")||
+                        nuevoTipo.getText().equalsIgnoreCase("vendedor"))
+                        empleados.setTipo(nuevoTipo.getText());
+                    else JOptionPane.showMessageDialog(null,"tipo de empleado inválido");
                 }
                 try {
                     gestionConsecionaria.empleadosController.update(empleados.getId(), empleados);
@@ -116,130 +112,6 @@ public class Modificar extends JFrame{
                 }
             }
         });
-        //DOCUMENT LISTENERS
-        nuevoNombre.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-        });
-
-        nuevoApellido.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-        });
-
-        nuevoDni.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-        });
-
-        nuevoUsuario.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-        });
-        nuevaClave.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-        });
-        nuevoTipo.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                habilitarDesHabilitarBoton();
-            }
-        });
-    }
-    private void habilitarDesHabilitarBoton() {
-
-        boolean dniValido = false;
-        if (nuevoDni.getText().trim().isEmpty()) dniValido = true;
-        else {
-            if (!gestionConsecionaria.compradorController.existeDni(nuevoDni.getText().trim())||
-                    this.empleados.getDni().equals(nuevoDni.getText().trim())) dniValido = true;
-        }
-
-        boolean usuarioValido = false;
-        if (nuevoUsuario.getText().trim().isEmpty()) usuarioValido = true;
-        else {
-            if (gestionConsecionaria.empleadosController.validarUsername(nuevoUsuario.getText())||
-                    this.empleados.getUsername().equals(nuevoUsuario.getText().trim())) usuarioValido = true;
-        }
-
-        boolean claveValida;
-        if (Arrays.toString(nuevaClave.getPassword()).trim().isEmpty())
-            claveValida=true;
-        else{
-            claveValida = Arrays.toString(claveActual.getPassword()).equals(Arrays.toString(nuevaClave.getPassword()));
-        }
-        aceptarButton.setEnabled(true);
     }
 
     public static void actualizarClaveEmpleado(Empleados empleados,String clave){

@@ -49,8 +49,12 @@ public class UsuariosAdmin extends JFrame implements EmpleadoEncontradoListener 
         EmpleadoEncontrado.addListener(UsuariosAdmin.this);
         if (empleados != null ){
             usuario.setText(empleados.toString());
-        }else
+            btnModificar.setEnabled(true); // Habilitar el botón si hay un empleado seleccionado
+        } else {
             usuario.setText("");
+            btnModificar.setEnabled(false); // Deshabilitar el botón si no hay empleado seleccionado
+        }
+        //
         //VOLVER
         btnVolver.addActionListener(new ActionListener() {
             @Override
@@ -85,10 +89,14 @@ public class UsuariosAdmin extends JFrame implements EmpleadoEncontradoListener 
         });
         //ELIMINAR
         //VER EXISTENTES
+
     }
 
     @Override
     public void onEmpleadoChanged(Empleados empleados) {
         usuario.setText(empleados != null ? empleados.toString() : "");
+        btnModificar.setEnabled(empleados != null); // Habilitar o deshabilitar el botón según haya un empleado seleccionado
     }
+
+
 }
