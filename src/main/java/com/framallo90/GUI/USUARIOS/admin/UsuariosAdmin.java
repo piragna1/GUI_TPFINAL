@@ -2,11 +2,14 @@ package com.framallo90.GUI.USUARIOS.admin;
 
 import com.framallo90.AGestionConsecionaria.GestionConsecionaria;
 import com.framallo90.Empleados.Model.Entity.Empleados;
+import com.framallo90.Excepciones.CeroAdminsException;
+import com.framallo90.Excepciones.InvalidIdNotFound;
 import com.framallo90.GUI.Interfaces.EmpleadoEncontradoListener;
 import com.framallo90.GUI.MenuAdmin;
 import com.framallo90.GUI.USUARIOS.admin.funcionalidades.agregar.Agregar;
 import com.framallo90.GUI.USUARIOS.admin.funcionalidades.buscar.Buscar;
 import com.framallo90.GUI.USUARIOS.admin.funcionalidades.modificar.Modificar;
+import com.framallo90.GUI.USUARIOS.admin.funcionalidades.verHistorial.VerHistorial;
 import com.framallo90.GUI.USUARIOS.auxiliar.EmpleadoEncontrado;
 
 import javax.swing.*;
@@ -88,7 +91,33 @@ public class UsuariosAdmin extends JFrame implements EmpleadoEncontradoListener 
             }
         });
         //ELIMINAR
+        btnEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (empleados!=null){
+                    try {
+                        gestionConsecionaria.empleadosController.removeEmpleado(empleados.getId());
+                        usuario.setText("");
+                        JOptionPane.showMessageDialog(null,"Empleado removido correctamente.");
+                    } catch (CeroAdminsException ex) {
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
+                    } catch (InvalidIdNotFound ex) {
+                        JOptionPane.showMessageDialog(null,ex.getMessage());
+                    }
+                    EmpleadoEncontrado.setEmpleados(null);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Aún no se ha seleccionado un usuario...");
+                }
+            }
+        });
         //VER EXISTENTES
+        btnExistentes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VerHistorial(gestionConsecionaria);
+            }
+        });
 
     }
 

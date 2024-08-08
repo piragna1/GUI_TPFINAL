@@ -74,7 +74,7 @@ public class ClientesAdmin extends JFrame implements ClienteEncontradoListener {
                     // Eliminar el comprador seleccionado (implement logic)
                     gestionConsecionaria.compradorController.remove(ClienteEncontrado.comprador.getId());
                     // Reset selectedComprador after deletion
-                    ClienteEncontrado.comprador = null;
+                    ClienteEncontrado.setComprador(null);
                     selectedDni.setText("");
                     selectedNombre.setText("");
                     selectedApellido.setText("");

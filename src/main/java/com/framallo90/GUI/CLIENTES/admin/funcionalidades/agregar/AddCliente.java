@@ -13,8 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static com.framallo90.UsuarioAbstracta.view.UsuarioView.isValidEmail;
-import static jdk.internal.net.http.common.Utils.isValidName;
 
 public class AddCliente extends JFrame {
     private JPanel addCliente;

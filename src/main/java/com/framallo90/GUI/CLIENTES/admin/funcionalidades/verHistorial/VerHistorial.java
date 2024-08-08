@@ -49,4 +49,5 @@ public class VerHistorial extends JFrame {
         setLocationRelativeTo(null); // Centrar la ventana
         setVisible(true);
     }
+
 }
